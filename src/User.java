@@ -50,4 +50,17 @@ public class User {
     public void setPosicao(Coordenadas posicao) {
         this.posicao = posicao.clone();
     }
+
+    public User clone(){
+        return new User(this);
+    }
+
+    public boolean equals(Object o){
+        if (o==this)return true;
+        if ((o==null) || o.getClass()!=this.getClass())return false;
+
+        User a = (User) o;
+
+        return this.getEmail().equals(a.getEmail());
+    }
 }
