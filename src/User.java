@@ -5,6 +5,13 @@ public class User {
     private String password;
     private Coordenadas posicao;
 
+    public User(String n, String mail, String pass, Coordenadas x){
+        setEmail(mail);
+        setNome(n);
+        setPassword(pass);
+        this.posicao = x.clone();
+    }
+
     public String getNome() {
         return nome;
     }
@@ -28,4 +35,6 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 }
