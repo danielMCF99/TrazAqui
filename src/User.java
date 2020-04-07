@@ -9,7 +9,14 @@ public class User {
         setEmail(mail);
         setNome(n);
         setPassword(pass);
-        this.posicao = x.clone();
+        setPosicao(x);
+    }
+
+    public User(User a){
+        this.nome = a.getNome();
+        this.email = a.getEmail();
+        this.password = a.getPassword();
+        this.posicao = a.getPosicao();
     }
 
     public String getNome() {
@@ -36,5 +43,11 @@ public class User {
         this.password = password;
     }
 
+    public Coordenadas getPosicao() {
+        return posicao;
+    }
 
+    public void setPosicao(Coordenadas posicao) {
+        this.posicao = posicao.clone();
+    }
 }
