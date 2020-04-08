@@ -1,4 +1,5 @@
 public class Coordenadas {
+
     private double latitude;
     private double longitude;
     private double raio;
