@@ -73,7 +73,7 @@ public class Voluntario extends User {
 
     /**
      * Permite definir a classificacao de um voluntario.
-     * @param disponivel
+     * @param classificacao
      * @return
      */
     public void setClassificacao(double classificacao) {
