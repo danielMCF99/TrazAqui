@@ -7,7 +7,8 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class Voluntario extends User {
-
+    
+    // variáveis de instância
     private double classificacao;
     private boolean disponivel;
     private double raio_acao;
@@ -17,7 +18,21 @@ public class Voluntario extends User {
     private List<Encomenda> entregas_feitas;
     private List<Encomenda> encomendas;
 
-
+    /**
+     * Construtor parametrizado da classe Voluntario.
+     * @param Nome
+     * @param email
+     * @param password
+     * @param posicao
+     * @param classificao
+     * @param disponivel
+     * @param range
+     * @param velocidade
+     * @param verificado
+     * @param entregas_feitas
+     * @param encomendas
+     * @return
+     */
     public Voluntario(String nome, String mail, String pass, Coordenadas posicao, double classi, boolean disp, double range,double vel, boolean veri, List<Encomenda> entregas_feitas1,List<Encomenda> encomendas1){
         super(nome,mail,pass,posicao);
         this.classificacao = classi;
@@ -30,6 +45,11 @@ public class Voluntario extends User {
         setEncomendas(encomendas1);
     }
 
+     /**
+     * Construtor de cópia de Voluntario.
+     * @param Voluntario
+     * @return
+     */
     public Voluntario(Voluntario v){
         super(v);
         this.classificacao = v.getClassificacao();
@@ -41,6 +61,12 @@ public class Voluntario extends User {
         setEncomendas(v.getEncomendas());
     }
 
+     /**
+     * Indica a classificacao do voluntario.
+     * @param
+     * @return classificacao
+     */
+    
     public double getClassificacao() {
         return classificacao;
     }
@@ -48,54 +74,84 @@ public class Voluntario extends User {
     public void setClassificacao(double classificacao) {
         this.classificacao = classificacao;
     }
-
+     
+    /**
+     * Indica se um voluntario esta disponivel.
+     * @param
+     * @return disponivel
+     */
     public boolean getDisponivel(){
         return disponivel;
     }
 
+    /**
+     * Permite definir se um voluntario esta disponivel para entrega.
+     * @param disponivel
+     * @return
+     */
     public void setDisponivel(boolean disponivel) {
         this.disponivel = disponivel;
     }
 
+     /**
+     * Indica o raio de acao do voluntario.
+     * @param
+     * @return raio_acao
+     */
     public double getRaio_acao() {
         return raio_acao;
     }
 
+    /**
+     * Permite definir p raio de acao de um voluntario.
+     * @param raio_acao
+     * @return
+     */
     public void setRaio_acao(double raio_acao) {
         this.raio_acao = raio_acao;
     }
 
+     /**
+     * Indica a velocidaide do voluntario.
+     * @param
+     * @return velocidade
+     */
     public double getVelocidade() {
         return velocidade;
     }
 
+    /**
+     * Permite definir a velocidade do transportador.
+     * @param velocidade
+     * @return
+     */
     public void setVelocidade(double velocidade) {
         this.velocidade = velocidade;
     }
 
+     /**
+     * Indica se o voluntario pode transportar material medico.
+     * @param
+     * @return verificado
+     */
     public boolean getVerificado(){
         return verificado;
     }
 
+    /**
+     * Permite ver o estatuto do voluntario(se entrega voluntario medico ou nao).
+     * @param verificado
+     * @return
+     */
     public void setVerificado(boolean verificado) {
         this.verificado = verificado;
     }
 
-    public List<Encomenda> getEncomendas() {
-        List<Encomenda> novo = new ArrayList<Encomenda>();
-        for (Encomenda x : this.encomendas){
-            novo.add(x.clone());
-        }
-        return novo;
-    }
-
-    public void setEncomendas(List<Encomenda> novo){
-        this.encomendas = new ArrayList<Encomenda>();
-        for (Encomenda x: novo){
-            this.encomendas.add(x.clone());
-        }
-    }
-
+     /**
+     * Permite obter a lista de entregas já finalizadas.
+     * param
+     * @return Lista de entregas feitas
+     */
     public List<Encomenda> getEntregas_feitas() {
         List<Encomenda> novo = new ArrayList<Encomenda>();
         for (Encomenda x : this.entregas_feitas){
@@ -104,15 +160,87 @@ public class Voluntario extends User {
         return novo;
     }
 
+    /**
+     * Atualiza o array com as entregas feitas.
+     * @param entregas_feitas
+     * @return
+     */
     public void setEntregas_feitas(List<Encomenda> novo){
         this.entregas_feitas = new ArrayList<Encomenda>();
         for (Encomenda x: novo){
             this.entregas_feitas.add(x.clone());
         }
+   
+     /**
+     * Permite obter a lista de encomendas.
+     * param
+     * @return Lista de encomendas
+     */
+    public List<Encomenda> getEncomendas() {
+        List<Encomenda> novo = new ArrayList<Encomenda>();
+        for (Encomenda x : this.encomendas){
+            novo.add(x.clone());
+        }
+        return novo;
     }
 
+     /**
+     * Atualiza o array com as encomendas.
+     * @param encomendas
+     * @return
+     */
+    public void setEncomendas(List<Encomenda> novo){
+        this.encomendas = new ArrayList<Encomenda>();
+        for (Encomenda x: novo){
+            this.encomendas.add(x.clone());
+        }
+    
+
+     /**
+     * Método que faz uma cópia da classe Voluntario.
+     * Para tal invoca o construtor de cópia.
+     * @param
+     * @return Voluntario clone da classe Voluntario
+     */
     public Voluntario clone(){
         return new Voluntario(this);
     }
     
+ /**
+     * Método que devolve a representação em String da classe Voluntario
+     * @param
+     * @return String.
+     */
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Contribuinte Coletivo:\n");
+        sb.append("Nome: ").append(super.getNome()).append("\n");
+        sb.append("Email: ").append(super.getEmail()).append("\n");
+        sb.append("Password: ").append(super.getPassword()).append("\n");
+        sb.append("Posicao: ").append(super.getPosicao()).append("\n");
+        sb.append("\tClassificacao: ").append(this.getClassificacao()).append("\n");
+        sb.append("\tDisponivel: ").append(this.getDisponivel().toString()).append("\n");
+        sb.append("\tRaio de acao: ").append(this.getRaio_acao().toString()).append("\n");
+        sb.append("\tVelocidade ").append(this.getVelocidade()).append("\n");
+        sb.append("\tVerificado: ").append(this.getVerificado()).append("\n");
+        sb.append("\tEntregas feitas: ").append(this.getEntregas_feitas()).append("\n");
+        sb.append("\tEncomendas: ").append(this.getEncomendas()).append("\n");
+        return sb.toString();    
+        }
+      
+     /**
+     * Método que verifica se a classe Voluntario é igual à classe Voluntario.
+     * @param Object
+     * @return boolean
+     */
+    public boolean equals(Object o){
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        Voluntario v = (Coletivo) o;
+        return (super(v).equals(super(this));
+        }
+
+                
 }
+
