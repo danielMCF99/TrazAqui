@@ -127,7 +127,7 @@ public class User {
         sb.append("Nome: ").append(this.getNome()).append("\n");
         sb.append("Email: ").append(this.getEmail()).append("\n");
         sb.append("Password: ").append(this.getPassword()).append("\n");
-        sb.append("Posicao: ").append(this.getIndex_Agregado()).append("\n");
+        sb.append("Posicao: ").append(this.getPosicao()).append("\n");
         return sb.toString();
     }
     
