@@ -115,6 +115,22 @@ public class User {
         return new User(this);
     }
 
+     /**
+     * Método que devolve a representação em String da classe User.
+     * @param
+     * @return String.
+     */
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("User:\n");
+        sb.append("Nome: ").append(this.getNome()).append("\n");
+        sb.append("Email: ").append(this.getEmail()).append("\n");
+        sb.append("Password: ").append(this.getPassword()).append("\n");
+        sb.append("Posicao: ").append(this.getIndex_Agregado()).append("\n");
+        return sb.toString();
+    }
+    
     /**
      * Método que verifica se a classe User é igual à classe User que recebe a mensagem.
      * @param Object
