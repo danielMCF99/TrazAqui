@@ -47,7 +47,7 @@ public class Voluntario extends User {
 
      /**
      * Construtor de cópia de Voluntario.
-     * @param Voluntario
+     * @param Voluntario v
      * @return
      */
     public Voluntario(Voluntario v){
