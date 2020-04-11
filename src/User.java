@@ -109,7 +109,7 @@ public class User {
      * Método que faz uma cópia da classe User.
      * Para tal invoca o construtor de cópia.
      * @param
-     * @return User clone da classe User que recebe a mensagem.
+     * @return User clone da classe User.
      */
     public User clone(){
         return new User(this);
