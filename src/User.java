@@ -132,7 +132,7 @@ public class User {
     }
     
     /**
-     * Método que verifica se a classe User é igual à classe User que recebe a mensagem.
+     * Método que verifica se um Object é igual à classe User atual.
      * @param Object
      * @return boolean
      */
