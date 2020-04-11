@@ -124,10 +124,10 @@ public class User {
     {
         StringBuilder sb = new StringBuilder();
         sb.append("User:\n");
-        sb.append("Nome: ").append(this.getNome()).append("\n");
-        sb.append("Email: ").append(this.getEmail()).append("\n");
-        sb.append("Password: ").append(this.getPassword()).append("\n");
-        sb.append("Posicao: ").append(this.getPosicao()).append("\n");
+        sb.append("\tNome: ").append(this.getNome()).append("\n");
+        sb.append("\tEmail: ").append(this.getEmail()).append("\n");
+        sb.append("\tPassword: ").append(this.getPassword()).append("\n");
+        sb.append("\tPosicao: ").append(this.getPosicao()).append("\n");
         return sb.toString();
     }
     
