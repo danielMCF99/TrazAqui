@@ -71,6 +71,11 @@ public class Voluntario extends User {
         return classificacao;
     }
 
+    /**
+     * Permite definir a classificacao de um voluntario.
+     * @param disponivel
+     * @return
+     */
     public void setClassificacao(double classificacao) {
         this.classificacao = classificacao;
     }
@@ -206,13 +211,12 @@ public class Voluntario extends User {
         return new Voluntario(this);
     }
     
- /**
-     * Método que devolve a representação em String da classe Voluntario
+     /**
+     * Método que devolve a representação em String da classe Voluntario.
      * @param
-     * @return String.
+     * @return String
      */
-    public String toString()
-    {
+    public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("Contribuinte Coletivo:\n");
         sb.append("Nome: ").append(super.getNome()).append("\n");
