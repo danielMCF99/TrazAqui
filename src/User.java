@@ -109,7 +109,7 @@ public class User {
      * Método que faz uma cópia da classe User.
      * Para tal invoca o construtor de cópia.
      * @param
-     * @return User clone da classe User.
+     * @return User clone da classe User
      */
     public User clone(){
         return new User(this);
@@ -118,7 +118,7 @@ public class User {
      /**
      * Método que devolve a representação em String da classe User.
      * @param
-     * @return String.
+     * @return String
      */
     public String toString()
     {
