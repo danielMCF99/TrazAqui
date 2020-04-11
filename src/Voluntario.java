@@ -66,7 +66,6 @@ public class Voluntario extends User {
      * @param
      * @return classificacao
      */
-    
     public double getClassificacao() {
         return classificacao;
     }
