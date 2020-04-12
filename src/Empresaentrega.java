@@ -14,7 +14,7 @@ public class Empresaentrega extends User {
     private boolean vistoMedico;
     private List<Encomenda> encomendas;
 
-     /**
+      /**
      * Construtor parametrizado da classe Voluntario.
      * @param Nome
      * @param email
@@ -30,7 +30,8 @@ public class Empresaentrega extends User {
      * @param encomendas
      * @return
      */
-    public Empresaentrega(String nome,String email,String password,Coordenadas posicao,boolean pR,double taxa,int capacidade, double vel,double classi, double raio,boolean vM, List<Encomenda> enc){
+      public Empresaentrega(String nome,String email,String password,Coordenadas posicao,boolean pR,double taxa,int capacidade, double vel,double classi, double raio,boolean vM, List<Encomenda> enc)
+          {
         super(nome,email,password,posicao);
         this.prontaReceber = pR;
         this.taxa = taxa;
@@ -47,7 +48,7 @@ public class Empresaentrega extends User {
      * @param Empresaentrega emp
      * @return
      */
-        public Empresaentrega(Empresaentrega emp)
+     public Empresaentrega(Empresaentrega emp)
         {
         super(emp);
         this.prontaReceber = emp.getProntaReceber();
@@ -59,67 +60,147 @@ public class Empresaentrega extends User {
         this.vistoMedico = emp.getVistoMedico();
         setEncomendas(emp.getEncomendas());
     }
-
+     
+     /**
+     * Indica se a empresa esta pronta a receber.
+     * @param
+     * @return prontaReceber
+     */
     public boolean getProntaReceber() {
         return prontaReceber;
     }
-
+     
+     /**
+     * Atualiza se a empresa esta pronta a receber.
+     * @param prontareceber
+     * @return
+     */
     public void setProntaReceber(boolean prontaReceber) {
         this.prontaReceber = prontaReceber;
     }
-
+     
+     /**
+     * Indica a taxa da empresa.
+     * @param
+     * @return taxa
+     */
     public double getTaxa() {
         return taxa;
     }
-
+     
+     /**
+     * Atualiza a taxa da empresa.
+     * @param taxa
+     * @return
+     */
     public void setTaxa(double taxa) {
         this.taxa = taxa;
     }
-
+     
+     /**
+     * Indica a capacidade da empresa.
+     * @param
+     * @return capacidade
+     */
     public int getCapacidade() {
         return capacidade;
     }
-
+     
+     /**
+     * Atualiza a capacidade da empresa.
+     * @param capacidade
+     * @return
+     */
     public void setCapacidade(int capacidade) {
         this.capacidade = capacidade;
     }
-
+     
+     /**
+     * Indica a velocidade da empresa a entregar.
+     * @param
+     * @return velocidade
+     */
     public double getVelocidade() {
         return velocidade;
     }
-
+     
+     /**
+     * Atualiza a velocidade da empresa a entregar.
+     * @param velocidade
+     * @return
+     */
     public void setVelocidade(double velocidade) {
         this.velocidade = velocidade;
     }
-
+     
+     /**
+     * Indica a classificacao da empresa de entrega.
+     * @param
+     * @return classificacao
+     */
     public double getClassificacao() {
         return classificacao;
     }
-
+     
+     /**
+     * Atualiza a classificacao da empresa de entrega.
+     * @param classificacao
+     * @return
+     */
     public void setClassificacao(double classificacao) {
         this.classificacao = classificacao;
     }
-
+    
+     /**
+     * Indica o raio que a empresa faz a entrega.
+     * @param
+     * @return raio
+     */
     public double getRaio() {
         return raio;
     }
-
+     
+     /**
+     * Atualiza o raio que a empresa faz a entrega.
+     * @param raio
+     * @return
+     */
     public void setRaio(double raio) {
         this.raio = raio;
     }
-
+     
+     /**
+     * Indica se a empresa entrega material medico(se pode ou nao entregar).
+     * @param
+     * @return vistomedico
+     */
     public boolean getVistoMedico() {
         return vistoMedico;
     }
-
+     
+     /**
+     * Atualiza se a empresa entrega material medico(se pode ou nao entregar).
+     * @param vistomedico
+     * @return
+     */
     public void setVistoMedico(boolean vistoMedico) {
         this.vistoMedico = vistoMedico;
     }
-
+     
+     /**
+     * Indica a lista de encomendas que a empresa tem
+     * @param
+     * @return  List<Encomenda> Encomendas
+     */
     public List<Encomenda> getEncomendas(){
         return this.encomendas.stream().map(Encomenda :: clone).collect(Collectors.toList());
     }
-
+     
+     /**
+     * Atualiza a lista de encomendas
+     * @param List<Encomenda> Encomendas
+     * @return
+     */
     public void setEncomendas(List<Encomenda> lista){
         List<Encomenda> aux = new ArrayList<Encomenda>();
         for(Encomenda e : lista){
