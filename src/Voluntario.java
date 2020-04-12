@@ -89,7 +89,7 @@ public class Voluntario extends User {
     }
 
     /**
-     * Permite definir se um voluntario esta disponivel para entrega.
+     * Atualiza se um voluntario esta disponivel para entrega.
      * @param disponivel
      * @return
      */
@@ -107,7 +107,7 @@ public class Voluntario extends User {
     }
 
     /**
-     * Permite definir p raio de acao de um voluntario.
+     * Atualiza o raio de acao de um voluntario.
      * @param raio_acao
      * @return
      */
@@ -125,7 +125,7 @@ public class Voluntario extends User {
     }
 
     /**
-     * Permite definir a velocidade do transportador.
+     * Atualiza a velocidade do transportador.
      * @param velocidade
      * @return
      */
@@ -143,7 +143,7 @@ public class Voluntario extends User {
     }
 
     /**
-     * Permite ver o estatuto do voluntario(se entrega voluntario medico ou nao).
+     * Atualiza o estatuto do voluntario(se entrega voluntario medico ou nao).
      * @param verificado
      * @return
      */
@@ -154,7 +154,7 @@ public class Voluntario extends User {
      /**
      * Permite obter a lista de entregas já finalizadas.
      * param
-     * @return Lista de entregas feitas
+     * @return List<Encomenda> Entregas_feitas
      */
     public List<Encomenda> getEntregas_feitas() {
         List<Encomenda> novo = new ArrayList<Encomenda>();
@@ -166,7 +166,7 @@ public class Voluntario extends User {
 
     /**
      * Atualiza o array com as entregas feitas.
-     * @param entregas_feitas
+     * @param List<Encomenda> Entregas_feitas
      * @return
      */
     public void setEntregas_feitas(List<Encomenda> novo){
@@ -180,7 +180,7 @@ public class Voluntario extends User {
      /**
      * Permite obter a lista de encomendas.
      * param
-     * @return Lista de encomendas
+     * @return List<Encomenda> Encomendas
      */
     public List<Encomenda> getEncomendas() {
         List<Encomenda> novo = new ArrayList<Encomenda>();
@@ -192,7 +192,7 @@ public class Voluntario extends User {
 
      /**
      * Atualiza o array com as encomendas.
-     * @param encomendas
+     * @param List<Encomenda> getEncomendas
      * @return
      */
     public void setEncomendas(List<Encomenda> novo){
@@ -230,8 +230,8 @@ public class Voluntario extends User {
         sb.append("\tRaio de acao: ").append(this.getRaio_acao().toString()).append("\n");
         sb.append("\tVelocidade ").append(this.getVelocidade()).append("\n");
         sb.append("\tVerificado: ").append(this.getVerificado()).append("\n");
-        sb.append("\tEntregas feitas: ").append(this.getEntregas_feitas()).append("\n");
-        sb.append("\tEncomendas: ").append(this.getEncomendas()).append("\n");
+        sb.append("\tEntregas feitas: ").append(this.entregas_feitas.toString()).append("\n");
+        sb.append("\tEntregas feitas: ").append(this.encomendas.toString()).append("\n");
         return sb.toString();    
         }
       
