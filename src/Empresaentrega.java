@@ -20,12 +20,13 @@ public class Empresaentrega extends User {
      * @param email
      * @param password
      * @param posicao
-     * @param classificao
-     * @param disponivel
-     * @param range
+     * @param prontaReceber
+     * @param taxa
+     * @param capacidade
      * @param velocidade
-     * @param verificado
-     * @param entregas_feitas
+     * @param classificacao
+     * @param raio
+     * @param vistoMedico
      * @param encomendas
      * @return
      */
@@ -40,8 +41,14 @@ public class Empresaentrega extends User {
         this.vistoMedico = vM;
         this.encomendas = enc.stream().map(Encomenda :: clone).collect(Collectors.toList());
     }
-
-    public Empresaentrega(Empresaentrega emp){
+         
+     /**
+     * Construtor de cópia de Empresaentrega.
+     * @param Empresaentrega emp
+     * @return
+     */
+        public Empresaentrega(Empresaentrega emp)
+        {
         super(emp);
         this.prontaReceber = emp.getProntaReceber();
         this.taxa = emp.getTaxa();
@@ -146,7 +153,7 @@ public class Empresaentrega extends User {
         sb.append("Password: ").append(super.getPassword()).append("\n");
         sb.append("Posicao: ").append(super.getPosicao()).append("\n");
         sb.append("\tPronta a receber: ").append(this.getProntaReceber()).append("\n");
-        sb.append("\tTaxa: ").append(this.getCoeficiente_Fiscal()).append("\n");
+        sb.append("\tTaxa: ").append(this.getTaxa()).append("\n");
         sb.append("\tCapacidade: ").append(this.getCapacidade()).append("\n");
         sb.append("\tVelocidade: ").append(this.getVelocidade()).append("\n");
         sb.append("\tClassificacao: ").append(this.getClassificacao()).append("\n");
