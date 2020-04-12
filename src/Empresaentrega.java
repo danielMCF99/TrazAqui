@@ -255,7 +255,7 @@ public class Empresaentrega extends User {
 
         Empresaentrega emp = (Empresaentrega) o;
 
-       return (super(emp).equals(super(this));
+       return (emp.getEmail().equals(this.getEmail));
     }
 
 
