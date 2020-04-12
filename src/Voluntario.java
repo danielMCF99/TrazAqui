@@ -13,7 +13,6 @@ public class Voluntario extends User {
     private boolean disponivel;
     private double raio_acao;
     private double velocidade;
-    //private double raio;
     private boolean verificado;
     private List<Encomenda> entregas_feitas;
     private List<Encomenda> encomendas;
@@ -38,7 +37,6 @@ public class Voluntario extends User {
         this.classificacao = classi;
         this.disponivel = disp;
         this.raio_acao = range;
-        //this.raio = r;
         this.velocidade = vel;
         this.verificado = veri;
         setEntregas_feitas(entregas_feitas1);
