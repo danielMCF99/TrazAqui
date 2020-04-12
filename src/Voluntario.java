@@ -243,7 +243,7 @@ public class Voluntario extends User {
     public boolean equals(Object o){
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
-        Voluntario v = (Coletivo) o;
+        Voluntario v = (Voluntario) o;
         return (super(v).equals(super(this));
         }
 
