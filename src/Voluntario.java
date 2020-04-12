@@ -174,7 +174,9 @@ public class Voluntario extends User {
         for (Encomenda x: novo){
             this.entregas_feitas.add(x.clone());
         }
-   
+        
+   }
+    
      /**
      * Permite obter a lista de encomendas.
      * param
@@ -198,8 +200,9 @@ public class Voluntario extends User {
         for (Encomenda x: novo){
             this.encomendas.add(x.clone());
         }
+        
+     }
     
-
      /**
      * Método que faz uma cópia da classe Voluntario.
      * Para tal invoca o construtor de cópia.
