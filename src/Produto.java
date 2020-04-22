@@ -19,13 +19,13 @@ public class Produto
   
      /**
      * Construtor parametrizado da classe produto.
-     * @param referencia
-     * @param descricao
-     * @param preco
-     * @param quantidade
-     * @param imposto
-     * @param desconto
-     * @param peso
+     * @param ref
+     * @param des
+     * @param pre
+     * @param quan
+     * @param imp
+     * @param descon
+     * @param pe
      * @return
      */
     public Produto(String ref,String des,double pre,int quan,double imp,double descon,double pe)
@@ -41,7 +41,7 @@ public class Produto
   
      /**
      * Construtor de cópia da classe produto
-     * @param produto  umproduto
+     * @param umproduto
      * @return
      */
       public Produto(Produto umproduto)
@@ -67,7 +67,7 @@ public class Produto
      
      /**
      * Atualiza a referencia de um produto
-     * @param referencia
+     * @param ref
      * @return
      */
     public void setreferencia(String ref)
@@ -87,7 +87,7 @@ public class Produto
      
      /**
      * Atualiza a descricao de um produto
-     * @param descricao
+     * @param des
      * @return
      */
     public void setdescricao(String des)
@@ -107,7 +107,7 @@ public class Produto
      
      /**
      * Atualiza o preco de um produto
-     * @param preco
+     * @param pre
      * @return
      */
     public void setpreco(double pre)
@@ -127,7 +127,7 @@ public class Produto
   
      /**
      * Atualiza a quantidade de um produto
-     * @param quantidade
+     * @param quan
      * @return
      */
     public void setquantidade(int quan)
@@ -147,7 +147,7 @@ public class Produto
   
     /**
      * Atualiza o imposto de um produto
-     * @param imposto
+     * @param imp
      * @return
      */
     public void setimposto(double imp)
@@ -167,7 +167,7 @@ public class Produto
   
      /**
      * Atualiza o desconto de um produto
-     * @param desconto
+     * @param descon
      * @return
      */
     public void setdesconto(double descon)
@@ -187,15 +187,25 @@ public class Produto
   
     /**
      * Atualiza o peso de um produto
-     * @param peso
+     * @param pe
      * @return
      */
     public void setpeso(double pe)
     {
         this.peso = pe;
     }
-  
-   /**
+
+    /**
+     * Metodo para calcular o preço total
+     *
+     */
+    public double quantoCusta(){
+        return this.preco * this.quantidade;
+    }
+
+
+
+    /**
      * Método que faz uma cópia da classe produto.
      * Para tal invoca o construtor de cópia.
      * @param
@@ -229,7 +239,7 @@ public class Produto
   
      /**
      * Método que verifica se a classe Produto é igual à classe Produto atual.
-     * @param Object
+     * @param o
      * @return boolean
      */
     public boolean equals(Object o)
