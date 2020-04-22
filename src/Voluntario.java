@@ -1,3 +1,5 @@
+package TrazAqui;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -5,7 +7,7 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class Voluntario extends User {
-    
+
     // variáveis de instância
     private double classificacao;
     private boolean disponivel;
@@ -17,17 +19,17 @@ public class Voluntario extends User {
 
     /**
      * Construtor parametrizado da classe Voluntario.
-     * @param Nome
-     * @param email
-     * @param password
+     * @param nome
+     * @param mail
+     * @param pass
      * @param posicao
-     * @param classificao
-     * @param disponivel
+     * @param classi
+     * @param disp
      * @param range
-     * @param velocidade
-     * @param verificado
-     * @param entregas_feitas
-     * @param encomendas
+     * @param vel
+     * @param veri
+     * @param entregas_feitas1
+     * @param encomendas1
      * @return
      */
     public Voluntario(String nome, String mail, String pass, Coordenadas posicao, double classi, boolean disp, double range,double vel, boolean veri, List<Encomenda> entregas_feitas1,List<Encomenda> encomendas1){
@@ -41,9 +43,9 @@ public class Voluntario extends User {
         setEncomendas(encomendas1);
     }
 
-     /**
+    /**
      * Construtor de cópia de Voluntario.
-     * @param Voluntario v
+     * @param v
      * @return
      */
     public Voluntario(Voluntario v){
@@ -57,7 +59,7 @@ public class Voluntario extends User {
         setEncomendas(v.getEncomendas());
     }
 
-     /**
+    /**
      * Indica a classificacao do voluntario.
      * @param
      * @return classificacao
@@ -74,7 +76,7 @@ public class Voluntario extends User {
     public void setClassificacao(double classificacao) {
         this.classificacao = classificacao;
     }
-     
+
     /**
      * Indica se um voluntario esta disponivel.
      * @param
@@ -93,7 +95,7 @@ public class Voluntario extends User {
         this.disponivel = disponivel;
     }
 
-     /**
+    /**
      * Indica o raio de acao do voluntario.
      * @param
      * @return raio_acao
@@ -111,7 +113,7 @@ public class Voluntario extends User {
         this.raio_acao = raio_acao;
     }
 
-     /**
+    /**
      * Indica a velocidaide do voluntario.
      * @param
      * @return velocidade
@@ -129,7 +131,7 @@ public class Voluntario extends User {
         this.velocidade = velocidade;
     }
 
-     /**
+    /**
      * Indica se o voluntario pode transportar material medico.
      * @param
      * @return verificado
@@ -147,7 +149,7 @@ public class Voluntario extends User {
         this.verificado = verificado;
     }
 
-     /**
+    /**
      * Permite obter a lista de entregas já finalizadas.
      * param
      * @return List<Encomenda> Entregas_feitas
@@ -170,10 +172,10 @@ public class Voluntario extends User {
         for (Encomenda x: novo){
             this.entregas_feitas.add(x.clone());
         }
-        
-   }
-    
-     /**
+
+    }
+
+    /**
      * Permite obter a lista de encomendas.
      * param
      * @return List<Encomenda> Encomendas
@@ -186,9 +188,9 @@ public class Voluntario extends User {
         return novo;
     }
 
-     /**
+    /**
      * Atualiza o array com as encomendas.
-     * @param List<Encomenda> getEncomendas
+     * @param novo
      * @return
      */
     public void setEncomendas(List<Encomenda> novo){
@@ -196,10 +198,10 @@ public class Voluntario extends User {
         for (Encomenda x: novo){
             this.encomendas.add(x.clone());
         }
-        
-     }
-    
-     /**
+
+    }
+
+    /**
      * Método que faz uma cópia da classe Voluntario.
      * Para tal invoca o construtor de cópia.
      * @param
@@ -208,8 +210,8 @@ public class Voluntario extends User {
     public Voluntario clone(){
         return new Voluntario(this);
     }
-    
-     /**
+
+    /**
      * Método que devolve a representação em String da classe Voluntario.
      * @param
      * @return String
@@ -222,18 +224,18 @@ public class Voluntario extends User {
         sb.append("Password: ").append(super.getPassword()).append("\n");
         sb.append("Posicao: ").append(super.getPosicao()).append("\n");
         sb.append("\tClassificacao: ").append(this.getClassificacao()).append("\n");
-        sb.append("\tDisponivel: ").append(this.getDisponivel().toString()).append("\n");
-        sb.append("\tRaio de acao: ").append(this.getRaio_acao().toString()).append("\n");
+        sb.append("\tDisponivel: ").append(this.getDisponivel()).append("\n");
+        sb.append("\tRaio de acao: ").append(this.getRaio_acao()).append("\n");
         sb.append("\tVelocidade ").append(this.getVelocidade()).append("\n");
         sb.append("\tVerificado: ").append(this.getVerificado()).append("\n");
         sb.append("\tEntregas feitas: ").append(this.entregas_feitas.toString()).append("\n");
         sb.append("\tEncomendas: ").append(this.encomendas.toString()).append("\n");
-        return sb.toString();    
-        }
-      
-     /**
+        return sb.toString();
+    }
+
+    /**
      * Método que verifica se a classe Voluntario é igual à classe Voluntario.
-     * @param Object
+     * @param o
      * @return boolean
      */
     public boolean equals(Object o){
@@ -241,8 +243,6 @@ public class Voluntario extends User {
         if (o == null || this.getClass() != o.getClass()) return false;
         Voluntario v = (Voluntario) o;
         return (v.getEmail().equals(this.getEmail()));
-        }
+    }
 
-                
 }
-
