@@ -242,7 +242,7 @@ public class Voluntario extends User {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
         Voluntario v = (Voluntario) o;
-        return (emp.getEmail().equals(this.getEmail()));
+        return (v.getEmail().equals(this.getEmail()));
         }
 
                 
