@@ -108,4 +108,21 @@ public class Coordenadas {
 
         return this.longitude == c.getLongitude() && this.latitude == c.getLongitude();
     }
+
+       /**
+     * Método que calcula a distancia entre dois pontos
+     * @param c1
+     * @param c2
+     * @return 
+     */   
+     public double calculadistanciaentredoispontos(coordenada c1,coordenada c2) 
+        {       
+            x1=c1.getLatitude();
+            x2=c1.getLongitude();
+            y1=c2.getLatitude();
+            y2=c2.getLongitude();
+         
+            return Math.sqrt(Math.pow((y2 - y1),2)  + Math.pow((x2 - x1),2));
+        }
+
 }
