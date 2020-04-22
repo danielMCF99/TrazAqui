@@ -1,26 +1,27 @@
 public class Coordenadas {
-    
+
     // Variáveis de instância
     private double latitude;
     private double longitude;
 
-     /**
+    /**
      * Construtor por omissão de Fatura.
      * @param
      * @return
      */
-    public Coordenadas()
-    {
+
+    public Coordenadas(){
         this.latitude = 0;
         this.longitude = 0;
     }
-     
-     /**
+
+    /**
      * Construtor parametrizado da classe user.
-     * @param Latitude
-     * @param Longitude
+     * @param lat
+     * @param longi
      * @return
      */
+
     public Coordenadas(double lat, double longi) {
         setLongitude(lat);
         setLatitude(longi);
@@ -28,9 +29,10 @@ public class Coordenadas {
 
     /**
      * Construtor de cópia da classe Coordenadas.
-     * @param Coordenadas c
+     * @param c
      * @return
      */
+
     public Coordenadas(Coordenadas c) {
         this.longitude = c.getLongitude();
         this.latitude = c.getLatitude();
@@ -42,15 +44,17 @@ public class Coordenadas {
      * @param
      * @return longitude
      */
+
     public double getLongitude() {
         return longitude;
     }
-    
-     /**
+
+    /**
      * Devolve a latitude
      * @param
      * @return latitude
      */
+
     public double getLatitude() {
         return latitude;
     }
@@ -60,17 +64,35 @@ public class Coordenadas {
      * @param latitude
      * @return
      */
+
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
-    
+
     /**
      * Atualiza a longitude.
      * @param longitude
      * @return
      */
+
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    /**
+     * Método que calcula a distancia entre dois pontos
+     * @param c1
+     * @param c2
+     * @return
+     */
+    public double calcula_Distancia_Coordenadas(Coordenadas c1,Coordenadas c2)
+    {
+       double x1=c1.getLatitude();
+       double x2=c1.getLongitude();
+       double y1=c2.getLatitude();
+       double y2=c2.getLongitude();
+
+        return Math.sqrt(Math.pow((y2 - y1),2)  + Math.pow((x2 - x1),2));
     }
 
     /**
@@ -79,6 +101,7 @@ public class Coordenadas {
      * @param
      * @return User clone da classe Coordenadas
      */
+
     public Coordenadas clone() {
         return new Coordenadas(this);
     }
@@ -88,6 +111,7 @@ public class Coordenadas {
      * @param
      * @return String
      */
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Coordenadas:\n").append("\tLatitude:").append(this.getLatitude()).append("\n")
@@ -95,11 +119,12 @@ public class Coordenadas {
         return sb.toString();
     }
 
-     /**
+    /**
      * Método que verifica se um Object é igual à classe Coordenadas atual.
-     * @param Object
+     * @param o
      * @return boolean
      */
+
     public boolean equals(Object o) {
         if (o == this) return true;
         if ((o == null) || (o.getClass() != this.getClass())) return false;
@@ -108,21 +133,4 @@ public class Coordenadas {
 
         return this.longitude == c.getLongitude() && this.latitude == c.getLongitude();
     }
-
-       /**
-     * Método que calcula a distancia entre dois pontos
-     * @param c1
-     * @param c2
-     * @return 
-     */   
-     public double calculadistanciaentredoispontos(coordenada c1,coordenada c2) 
-        {       
-            x1=c1.getLatitude();
-            x2=c1.getLongitude();
-            y1=c2.getLatitude();
-            y2=c2.getLongitude();
-         
-            return Math.sqrt(Math.pow((y2 - y1),2)  + Math.pow((x2 - x1),2));
-        }
-
 }
