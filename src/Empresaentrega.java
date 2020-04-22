@@ -16,18 +16,18 @@ public class Empresaentrega extends User {
 
       /**
      * Construtor parametrizado da classe Voluntario.
-     * @param Nome
+     * @param nome
      * @param email
      * @param password
      * @param posicao
      * @param prontaReceber
      * @param taxa
      * @param capacidade
-     * @param velocidade
-     * @param classificacao
+     * @param vel
+     * @param classi
      * @param raio
-     * @param vistoMedico
-     * @param encomendas
+     * @param vM
+     * @param enc
      * @return
      */
       public Empresaentrega(String nome,String email,String password,Coordenadas posicao,boolean pR,double taxa,int capacidade, double vel,double classi, double raio,boolean vM, List<Encomenda> enc)
