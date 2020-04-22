@@ -229,7 +229,7 @@ public class Voluntario extends User {
         sb.append("\tVelocidade ").append(this.getVelocidade()).append("\n");
         sb.append("\tVerificado: ").append(this.getVerificado()).append("\n");
         sb.append("\tEntregas feitas: ").append(this.entregas_feitas.toString()).append("\n");
-        sb.append("\tEntregas feitas: ").append(this.encomendas.toString()).append("\n");
+        sb.append("\tEncomendas: ").append(this.encomendas.toString()).append("\n");
         return sb.toString();    
         }
       
