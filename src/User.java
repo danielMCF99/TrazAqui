@@ -1,42 +1,34 @@
-package Projeto;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
-
 public class User {
 
     // Variáveis de instância
     private String nome;       
-    private String email;     
+    private String username;     //username -> username
     private String password;
     private Coordenadas posicao;
 
     /**
      * Construtor parametrizado da classe user.
-     * @param Nome
-     * @param Email
-     * @param password
-     * @param posicao
+     * @param n
+     * @param mail
+     * @param pass
+     * @param x
      * @return
      */
     public User(String n, String mail, String pass, Coordenadas x){
         setNome(n);
-        setEmail(mail);
+        setUsername(mail);
         setPassword(pass);
         setPosicao(x);
     }
 
      /**
      * Construtor de cópia da classe User.
-     * @param User a
+     * @param a
      * @return
      */
     public User(User a){
         this.nome = a.getNome();
-        this.email = a.getEmail();
+        this.username = a.getUsername();
         this.password = a.getPassword();
         this.posicao = a.getPosicao();
     }
@@ -52,7 +44,7 @@ public class User {
 
     /**
      * Atualiza o nome do user.
-     * @param Nome
+     * @param nome
      * @return
      */
     public void setNome(String nome) {
@@ -60,21 +52,21 @@ public class User {
     }
 
     /**
-     * Devolve o email do user.
+     * Devolve o username do user.
      * @param
-     * @return email
+     * @return username
      */
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
     /**
      * Atualiza o mail do user.
-     * @param Email
+     * @param username
      * @return
      */
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     /**
@@ -88,7 +80,7 @@ public class User {
 
     /**
      * Atualiza a password do user.
-     * @param Password
+     * @param password
      * @return
      */
     public void setPassword(String password) {
@@ -106,7 +98,7 @@ public class User {
 
      /**
      * Atualiza a Posicao do user.
-     * @param Posicao
+     * @param posicao
      * @return
      */
     public void setPosicao(Coordenadas posicao) {
@@ -133,7 +125,7 @@ public class User {
         StringBuilder sb = new StringBuilder();
         sb.append("User:\n");
         sb.append("\tNome: ").append(this.getNome()).append("\n");
-        sb.append("\tEmail: ").append(this.getEmail()).append("\n");
+        sb.append("\tEmail: ").append(this.getUsername()).append("\n");
         sb.append("\tPassword: ").append(this.getPassword()).append("\n");
         sb.append("\tPosicao: ").append(this.getPosicao()).append("\n");
         return sb.toString();
@@ -141,7 +133,7 @@ public class User {
     
     /**
      * Método que verifica se um Object é igual à classe User atual.
-     * @param Object
+     * @param o
      * @return boolean
      */
       public boolean equals(Object o){
@@ -150,6 +142,6 @@ public class User {
 
         User a = (User) o;
 
-        return this.getEmail().equals(a.getEmail());
+        return this.getUsername().equals(a.getUsername());
     }
 }

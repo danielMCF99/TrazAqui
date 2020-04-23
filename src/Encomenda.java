@@ -1,62 +1,61 @@
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Encomenda {
     private String referencia;
-    private String descricao;
+    private String referenciaUti;
+    private String referenciaLoj;
     private double preco;
-    private int quantidade;
     private double imposto;
     private double desconto;
     private LocalDateTime data;
+    private double peso;
+    private List<Produto> lista;
+
 
     public Encomenda() {
         this.referencia = "n/a";
-        this.descricao = "n/a";
+        this.referenciaUti = "n/a";
+        this.referenciaUti = "n/a";
         this.preco = 0;
-        this.quantidade = 0;
         this.imposto = 0;
         this.desconto = 0;
         this.data = LocalDateTime.now();
+        this.lista = new ArrayList<>();
     }
 
-    public Encomenda(String referencia, String descricao, double preco,
-                     int quantidade, double imposto, double desconto, LocalDateTime date) {
+    public Encomenda(String referencia, String refUti, String refLoj, double preco,
+                     double imposto, double desconto, LocalDateTime date, List<Produto> l) {
         this.referencia = referencia;
-        this.descricao = descricao;
+        this.referencia = refUti;
+        this.referencia = refLoj;
         this.preco = preco;
-        this.quantidade = quantidade;
         this.imposto = imposto;
         this.desconto = desconto;
-        this.data = data;
+        this.data = date;
+        setLista(l);
+
     }
 
     public Encomenda(Encomenda linha) {
         this.referencia = linha.getReferencia();
-        this.descricao = linha.getDescricao();
+        this.referenciaUti = linha.getReferenciaUti();
+        this.referenciaLoj = linha.getReferenciaLoj();
         this.preco = linha.getPreco();
-        this.quantidade = linha.getQuantidade();
         this.imposto = linha.getImposto();
         this.desconto = linha.getDesconto();
         this.data = linha.getData();
+        this.lista = linha.getLista();
     }
 
-    /**
-     * B)
-     */
     public double calculaValorLinhaEnc() {
-        double valor = this.quantidade * this.preco;
-        valor -= valor*this.desconto;
-        valor *= 1+this.imposto;
+        double valor = 0;
+        for(Produto p : this.lista){
+            valor += p.quantoCusta();
+        }
         return valor;
-    }
-
-    /**
-     * C)
-     */
-    public double calculaValorDesconto() {
-        double valor = this.quantidade * this.preco;
-        valor *= this.imposto; //e.g. imposto = 1.06
-        return this.calculaValorLinhaEnc()-valor;
     }
 
     public LocalDateTime getData() {
@@ -75,12 +74,21 @@ public class Encomenda {
         this.referencia = referencia;
     }
 
-    public String getDescricao() {
-        return this.descricao;
+
+    public String getReferenciaUti() {
+        return referenciaUti;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setReferenciaUti(String referenciaUti) {
+        this.referenciaUti = referenciaUti;
+    }
+
+    public String getReferenciaLoj() {
+        return referenciaLoj;
+    }
+
+    public void setReferenciaLoj(String referenciaLoj) {
+        this.referenciaLoj = referenciaLoj;
     }
 
     public double getPreco() {
@@ -91,13 +99,6 @@ public class Encomenda {
         this.preco = preco;
     }
 
-    public int getQuantidade() {
-        return this.quantidade;
-    }
-
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
-    }
 
     public double getImposto() {
         return this.imposto;
@@ -115,22 +116,23 @@ public class Encomenda {
         this.desconto = desconto;
     }
 
+    public List<Produto> getLista(){
+        return this.lista.stream().map(Produto :: clone).collect(Collectors.toList());
+    }
+
+    public void setLista(List<Produto> l){
+        this.lista = l.stream().map(Produto :: clone).collect(Collectors.toList());
+    }
+
     public Encomenda clone() {
         return new Encomenda(this);
     }
 
     public boolean equals(Object obj) {
-        if(obj==this) return true;
-        if(obj==null || obj.getClass() != this.getClass()) return false;
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
         Encomenda le = (Encomenda) obj;
-        return le.getReferencia().equals(this.referencia) &&
-                le.getDescricao().equals(this.descricao) &&
-                le.getPreco() == this.preco;
+        return le.getReferencia().equals(this.referencia);
     }
 
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Referencia: ").append(this.referencia);
-        //..
-        return sb.toString();
-    }
+}

@@ -230,7 +230,7 @@ public class Empresaentrega extends User {
         StringBuilder sb = new StringBuilder();
         sb.append("Empresa de entrega:\n");
         sb.append("Nome: ").append(super.getNome()).append("\n");
-        sb.append("Email: ").append(super.getEmail()).append("\n");
+        sb.append("Email: ").append(super.getUsername()).append("\n");
         sb.append("Password: ").append(super.getPassword()).append("\n");
         sb.append("Posicao: ").append(super.getPosicao()).append("\n");
         sb.append("\tPronta a receber: ").append(this.getProntaReceber()).append("\n");
@@ -255,7 +255,7 @@ public class Empresaentrega extends User {
 
         Empresaentrega emp = (Empresaentrega) o;
 
-       return (emp.getEmail().equals(this.getEmail()));
+       return (emp.getUsername().equals(this.getUsername()));
     }
 
 

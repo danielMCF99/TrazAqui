@@ -1,10 +1,5 @@
-package TrazAqui;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 public class Voluntario extends User {
 
@@ -164,7 +159,7 @@ public class Voluntario extends User {
 
     /**
      * Atualiza o array com as entregas feitas.
-     * @param List<Encomenda> Entregas_feitas
+     * @param novo
      * @return
      */
     public void setEntregas_feitas(List<Encomenda> novo){
@@ -220,7 +215,7 @@ public class Voluntario extends User {
         StringBuilder sb = new StringBuilder();
         sb.append("Contribuinte Coletivo:\n");
         sb.append("Nome: ").append(super.getNome()).append("\n");
-        sb.append("Email: ").append(super.getEmail()).append("\n");
+        sb.append("Email: ").append(super.getUsername()).append("\n");
         sb.append("Password: ").append(super.getPassword()).append("\n");
         sb.append("Posicao: ").append(super.getPosicao()).append("\n");
         sb.append("\tClassificacao: ").append(this.getClassificacao()).append("\n");
@@ -242,7 +237,7 @@ public class Voluntario extends User {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
         Voluntario v = (Voluntario) o;
-        return (v.getEmail().equals(this.getEmail()));
+        return (v.getUsername().equals(this.getUsername()));
     }
 
 }
