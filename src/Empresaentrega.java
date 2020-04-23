@@ -20,7 +20,7 @@ public class Empresaentrega extends User {
      * @param email
      * @param password
      * @param posicao
-     * @param prontaReceber
+     * @param pR
      * @param taxa
      * @param capacidade
      * @param vel
@@ -45,7 +45,7 @@ public class Empresaentrega extends User {
          
      /**
      * Construtor de cópia de Empresaentrega.
-     * @param Empresaentrega emp
+     * @param emp
      * @return
      */
      public Empresaentrega(Empresaentrega emp)
@@ -72,7 +72,7 @@ public class Empresaentrega extends User {
      
      /**
      * Atualiza se a empresa esta pronta a receber.
-     * @param prontareceber
+     * @param prontaReceber
      * @return
      */
     public void setProntaReceber(boolean prontaReceber) {
@@ -180,7 +180,7 @@ public class Empresaentrega extends User {
      
      /**
      * Atualiza se a empresa entrega material medico(se pode ou nao entregar).
-     * @param vistomedico
+     * @param vistoMedico
      * @return
      */
     public void setVistoMedico(boolean vistoMedico) {
@@ -193,20 +193,20 @@ public class Empresaentrega extends User {
      * @return  List<Encomenda> Encomendas
      */
     public List<Encomenda> getEncomendas(){
-        return this.encomendas.stream().map(Encomenda :: clone).collect(Collectors.toList());
+        List<Encomenda> aux = new ArrayList<Encomenda>();
+        for(Encomenda e : this.encomendas){
+            aux.add(e.clone());
+        }
+        return aux;
     }
      
      /**
      * Atualiza a lista de encomendas
-     * @param List<Encomenda> Encomendas
+     * @param lista
      * @return
      */
     public void setEncomendas(List<Encomenda> lista){
-        List<Encomenda> aux = new ArrayList<Encomenda>();
-        for(Encomenda e : lista){
-            aux.add(e.clone());
-        }
-        this.encomendas = aux;
+        this.encomendas = lista.stream().map(Encomenda :: clone).collect(Collectors.toList());
     }
 
      /**
@@ -246,7 +246,7 @@ public class Empresaentrega extends User {
 
      /**
      * Método que verifica se um Object é igual à classe Empresaentrega atual.
-     * @param Object
+     * @param o
      * @return boolean
      */
       public boolean equals(Object o){

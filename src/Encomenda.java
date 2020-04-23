@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -117,12 +118,62 @@ public class Encomenda {
     }
 
     public List<Produto> getLista(){
-        return this.lista.stream().map(Produto :: clone).collect(Collectors.toList());
+        List<Produto> ret = new ArrayList<>();
+        for(Produto p : this.lista){
+            ret.add(p.clone());
+        }
+        return ret;
     }
 
     public void setLista(List<Produto> l){
         this.lista = l.stream().map(Produto :: clone).collect(Collectors.toList());
     }
+
+    /**
+     * metodo que determina se produto vai ser encomendado
+     * @return boolean
+     */
+    public boolean existeProdutoEncomenda(String refProduto) {
+        Iterator<Produto> it = this.lista.iterator();
+        while(it.hasNext()){
+            String aux = it.next().getreferencia();
+            if(refProduto.equals(aux)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * metodo para adicionar produto a encomenda
+     */
+    public void adicionaProduto(Produto linha){
+        if(!this.lista.contains(linha)){
+            lista.add(linha);
+        }
+        else{
+            System.out.print("A encomenda que quer adicionar já existe\n");
+        }
+    }
+
+    /**
+     * metodo para remover produto de encomenda
+     */
+    public void removeProduto(String codProd){
+        Iterator<Produto> it = this.lista.iterator();
+        boolean removido = false;
+        while(it.hasNext() && !removido){
+            Produto aux = it.next();
+            if(codProd.equals(aux.getreferencia())){
+                it.remove();
+                removido = true;
+            }
+        }
+        if (!removido){
+            System.out.println("O Produto que quer remover não se encontra nesta encomenda.\n");
+        }
+    }
+
 
     public Encomenda clone() {
         return new Encomenda(this);

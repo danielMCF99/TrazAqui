@@ -204,7 +204,6 @@ public class Produto
     }
 
 
-
     /**
      * Método que faz uma cópia da classe produto.
      * Para tal invoca o construtor de cópia.

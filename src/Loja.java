@@ -1,11 +1,89 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-public class Loja {
+public class Loja extends User{
 
     private List<Encomenda> filaespera;
     private double tempoAtendimento;
-    private HashMap<Produto,Integer> inventario;
+    private HashMap<Produto, Integer> inventario;
+
+
+    public Loja(String nome, String username, String password, Coordenadas pos, List<Encomenda> fl, double tempoA, HashMap<Produto,Integer> inv){
+        super(nome,username,password,pos);
+        this.tempoAtendimento = tempoA;
+        setFilaespera(fl);
+        setInventario(inv);
+    }
+
+    public Loja(Loja l1){
+        super(l1.getNome(),l1.getUsername(),l1.getPassword(),l1.getPosicao());
+        this.tempoAtendimento = l1.getTempoAtendimento();
+        setFilaespera(l1.getFilaespera());
+        setInventario(l1.getInventario());
+    }
+
+    public double getTempoAtendimento() {
+        return tempoAtendimento;
+    }
+
+    public void setTempoAtendimento(double tempoAtendimento) {
+        this.tempoAtendimento = tempoAtendimento;
+    }
+
+    public List<Encomenda> getFilaespera(){
+        List<Encomenda> ret = new ArrayList<>();
+        for(Encomenda e : this.filaespera){
+            ret.add(e.clone());
+        }
+        return ret;
+    }
+
+    public void setFilaespera(List<Encomenda> l){
+        this.filaespera = l.stream().map(Encomenda :: clone).collect(Collectors.toList());
+    }
+
+    public Map<Produto,Integer> getInventario(){
+        Map<Produto,Integer> ret = new HashMap<>();
+        for(Map.Entry<Produto,Integer> par : this.inventario.entrySet()){
+            ret.put(par.getKey().clone(), par.getValue());
+        }
+        return ret;
+    }
+
+    public void setInventario(Map<Produto,Integer> inv){
+        this.inventario = new HashMap<>();
+        inv.entrySet().forEach(e -> {this.inventario.put(e.getKey().clone(),e.getValue());});
+    }
+
+    /**
+     * Metodo para inserir encomenda na lista de espera
+     */
+    public void addEncomenda(Encomenda e){
+        if (!this.filaespera.contains(e)){
+            this.filaespera.add(e.clone());
+        }else{
+            System.out.println("Essa encomenda já está na fila de espera\n");
+        }
+    }
+
+    /**
+     * Metodo para remover encomenda da lista de espera
+     */
+    public void removeEncomenda(String codEnc){
+        boolean contem = false;
+        for(Encomenda e : this.filaespera){
+            if (e.getReferencia().equals(codEnc)){
+                contem = true;
+                this.filaespera.remove(e);
+            }
+        }
+        if (contem == false) {
+            System.out.println("A encomenda que quer remover não está na fila de espera\n");
+        }
+    }
 
 
 }

@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Voluntario extends User {
 
@@ -163,11 +164,7 @@ public class Voluntario extends User {
      * @return
      */
     public void setEntregas_feitas(List<Encomenda> novo){
-        this.entregas_feitas = new ArrayList<Encomenda>();
-        for (Encomenda x: novo){
-            this.entregas_feitas.add(x.clone());
-        }
-
+        this.entregas_feitas = novo.stream().map(Encomenda::clone).collect(Collectors.toList());
     }
 
     /**
@@ -189,11 +186,7 @@ public class Voluntario extends User {
      * @return
      */
     public void setEncomendas(List<Encomenda> novo){
-        this.encomendas = new ArrayList<Encomenda>();
-        for (Encomenda x: novo){
-            this.encomendas.add(x.clone());
-        }
-
+        this.encomendas = novo.stream().map(Encomenda::clone).collect(Collectors.toList());
     }
 
     /**
