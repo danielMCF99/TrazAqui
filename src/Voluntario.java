@@ -1,5 +1,9 @@
+package TrazAqui;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class Voluntario extends User {
@@ -151,7 +155,7 @@ public class Voluntario extends User {
      * @return List<Encomenda> Entregas_feitas
      */
     public List<Encomenda> getEntregas_feitas() {
-        List<Encomenda> novo = new ArrayList<Encomenda>();
+        List<Encomenda> novo = new ArrayList<>();
         for (Encomenda x : this.entregas_feitas){
             novo.add(x.clone());
         }
@@ -164,7 +168,11 @@ public class Voluntario extends User {
      * @return
      */
     public void setEntregas_feitas(List<Encomenda> novo){
-        this.entregas_feitas = novo.stream().map(Encomenda::clone).collect(Collectors.toList());
+        this.entregas_feitas = new ArrayList<>();
+        for (Encomenda x: novo){
+            this.entregas_feitas.add(x.clone());
+        }
+
     }
 
     /**
@@ -186,7 +194,11 @@ public class Voluntario extends User {
      * @return
      */
     public void setEncomendas(List<Encomenda> novo){
-        this.encomendas = novo.stream().map(Encomenda::clone).collect(Collectors.toList());
+        this.encomendas = new ArrayList<Encomenda>();
+        for (Encomenda x: novo){
+            this.encomendas.add(x.clone());
+        }
+
     }
 
     /**
@@ -206,18 +218,17 @@ public class Voluntario extends User {
      */
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Contribuinte Coletivo:\n");
-        sb.append("Nome: ").append(super.getNome()).append("\n");
-        sb.append("Email: ").append(super.getUsername()).append("\n");
-        sb.append("Password: ").append(super.getPassword()).append("\n");
-        sb.append("Posicao: ").append(super.getPosicao()).append("\n");
-        sb.append("\tClassificacao: ").append(this.getClassificacao()).append("\n");
-        sb.append("\tDisponivel: ").append(this.getDisponivel()).append("\n");
-        sb.append("\tRaio de acao: ").append(this.getRaio_acao()).append("\n");
-        sb.append("\tVelocidade ").append(this.getVelocidade()).append("\n");
-        sb.append("\tVerificado: ").append(this.getVerificado()).append("\n");
-        sb.append("\tEntregas feitas: ").append(this.entregas_feitas.toString()).append("\n");
-        sb.append("\tEncomendas: ").append(this.encomendas.toString()).append("\n");
+        sb.append("Nome: ").append(super.getNome()).append("\n")
+        .append("Email: ").append(super.getUsername()).append("\n")
+        .append("Password: ").append(super.getPassword()).append("\n")
+        .append("Posicao: \n").append(super.getPosicao())
+        .append("\tClassificacao: ").append(this.getClassificacao()).append("\n")
+        .append("\tDisponivel: ").append(this.getDisponivel()).append("\n")
+        .append("\tRaio de acao: ").append(this.getRaio_acao()).append("\n")
+        .append("\tVelocidade ").append(this.getVelocidade()).append("\n")
+        .append("\tVerificado: ").append(this.getVerificado()).append("\n")
+        .append("\tEntregas feitas: \n").append(this.entregas_feitas.toString()).append("\n")
+        .append("\tEncomendas: \n").append(this.encomendas.toString()).append("\n");
         return sb.toString();
     }
 

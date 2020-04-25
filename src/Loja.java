@@ -1,3 +1,6 @@
+package TrazAqui;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -80,10 +83,26 @@ public class Loja extends User{
                 this.filaespera.remove(e);
             }
         }
-        if (contem == false) {
+        if (!contem) {
             System.out.println("A encomenda que quer remover não está na fila de espera\n");
         }
     }
 
+    public Loja clone(){
+        return new Loja(this);
+    }
 
+    public boolean equals(Object o){
+        if (o==this)return true;
+        if(o==null || o.getClass()!=this.getClass())return false;
+        Loja l = (Loja) o;
+        return l.getUsername().equals(((Loja) o).getUsername());
+    }
+
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Loja:\n").append(super.toString()).append("\n")
+                .append("Inventário:\n").append("\t"+this.inventario);
+        return sb.toString();
+    }
 }

@@ -1,3 +1,5 @@
+package TrazAqui;
+
 public class Coordenadas {
 
     // Variáveis de instância
@@ -85,7 +87,7 @@ public class Coordenadas {
      * @param c2
      * @return
      */
-    public double calcula_Distancia_Coordenadas(Coordenadas c1,Coordenadas c2)
+    public double distancia_Coordenadas(Coordenadas c1,Coordenadas c2)
     {
        double x1=c1.getLatitude();
        double x2=c1.getLongitude();
@@ -115,7 +117,7 @@ public class Coordenadas {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Coordenadas:\n").append("\tLatitude:").append(this.getLatitude()).append("\n")
-                .append("\tLongitude:").append(this.getLatitude()).append("\n");
+                .append("\tLongitude:").append(this.getLongitude()).append("\n");
         return sb.toString();
     }
 

@@ -1,12 +1,15 @@
+package TrazAqui;
+
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class Encomenda {
     private String referencia;
-    private String referenciaUti;
+    private String referenciaUti; //
     private String referenciaLoj;
     private double preco;
     private double imposto;
@@ -19,22 +22,24 @@ public class Encomenda {
     public Encomenda() {
         this.referencia = "n/a";
         this.referenciaUti = "n/a";
-        this.referenciaUti = "n/a";
+        this.referenciaLoj = "n/a";
         this.preco = 0;
         this.imposto = 0;
         this.desconto = 0;
         this.data = LocalDateTime.now();
+        this.peso = 0;
         this.lista = new ArrayList<>();
     }
 
     public Encomenda(String referencia, String refUti, String refLoj, double preco,
-                     double imposto, double desconto, LocalDateTime date, List<Produto> l) {
+                     double imposto, double desconto, LocalDateTime date,double peso, List<Produto> l) {
         this.referencia = referencia;
-        this.referencia = refUti;
-        this.referencia = refLoj;
+        this.referenciaUti = refUti;
+        this.referenciaLoj = refLoj;
         this.preco = preco;
         this.imposto = imposto;
         this.desconto = desconto;
+        this.peso = peso;
         this.data = date;
         setLista(l);
 
@@ -48,15 +53,8 @@ public class Encomenda {
         this.imposto = linha.getImposto();
         this.desconto = linha.getDesconto();
         this.data = linha.getData();
+        this.peso = linha.getPeso();
         this.lista = linha.getLista();
-    }
-
-    public double calculaValorLinhaEnc() {
-        double valor = 0;
-        for(Produto p : this.lista){
-            valor += p.quantoCusta();
-        }
-        return valor;
     }
 
     public LocalDateTime getData() {
@@ -74,7 +72,6 @@ public class Encomenda {
     public void setReferencia(String referencia) {
         this.referencia = referencia;
     }
-
 
     public String getReferenciaUti() {
         return referenciaUti;
@@ -100,7 +97,6 @@ public class Encomenda {
         this.preco = preco;
     }
 
-
     public double getImposto() {
         return this.imposto;
     }
@@ -115,6 +111,14 @@ public class Encomenda {
 
     public void setDesconto(double desconto) {
         this.desconto = desconto;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
     }
 
     public List<Produto> getLista(){
@@ -142,6 +146,19 @@ public class Encomenda {
             }
         }
         return false;
+    }
+
+    /**
+     * método que determina o valor total de um encomenda
+     * @return
+     */
+
+    public double calculaValorLinhaEnc() {
+        double valor = 0;
+        for(Produto p : this.lista){
+            valor += p.quantoCusta();
+        }
+        return valor;
     }
 
     /**
@@ -179,6 +196,18 @@ public class Encomenda {
         return new Encomenda(this);
     }
 
+    public String toString(){
+        StringBuilder sb = new StringBuilder();         //VER O PESO
+        sb.append("Encomenda:\n")
+                .append("\tReferência:").append(this.referencia).append("\n")
+                .append("\tReferência Utilizador: ").append(this.referenciaUti).append("\n")
+                .append("\tReferência Loja: ").append(this.referenciaLoj).append("\n")
+                .append("\tPeso: ").append(this.peso).append("\n")
+                .append("\tData: ").append(this.data).append("\n")
+                .append("\tProdutos:\n").append(this.lista.toString());
+        return sb.toString();
+    }
+
     public boolean equals(Object obj) {
         if (obj == this) return true;
         if (obj == null || obj.getClass() != this.getClass()) return false;
@@ -187,3 +216,4 @@ public class Encomenda {
     }
 
 }
+
