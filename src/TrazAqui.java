@@ -79,7 +79,7 @@ public class TrazAqui implements Serializable{
                 case "Loja":
                     addLoja(trazAqui,typeString[1]);
                     break;
-                /*
+
                 case "Encomenda":
                     addEncomenda(trazAqui,typeString[1]);
                     break;
@@ -87,7 +87,7 @@ public class TrazAqui implements Serializable{
                 case "Aceite":
                     addAceite(trazAqui,typeString[1]);
                     break;
-                 */
+
                 case "Transportadora":
                     addTransportadora(trazAqui, typeString[1]);
                 default:
@@ -107,10 +107,11 @@ public class TrazAqui implements Serializable{
             if(fields.length == 4) {
                 Coordenadas pos = new Coordenadas(Double.parseDouble(fields[2]),Double.parseDouble(fields[3]));
                 Cliente c = new Cliente(fields[0],fields[1],pos);
-                try {
+                /*try {
                     trazAqui.addUser(c);
                 } catch (utilizadorJaExiste e) {
-                }
+                }*/
+                trazAqui.addUser(c);
             }
         }
 
@@ -124,10 +125,12 @@ public class TrazAqui implements Serializable{
             if(fields.length == 5) {
                 Coordenadas pos = new Coordenadas(Double.parseDouble(fields[2]),Double.parseDouble(fields[3]));
                 Voluntario v = new Voluntario(fields[0],fields[1],pos,Double.parseDouble(fields[4]));
+                /*
                 try {
                     trazAqui.addUser(v);
                 } catch (utilizadorJaExiste e) {
-                }
+                }*/
+                trazAqui.addUser(v);
             }
         }
 
@@ -141,10 +144,12 @@ public class TrazAqui implements Serializable{
             if(fields.length == 6) {
                 Coordenadas pos = new Coordenadas(Double.parseDouble(fields[2]),Double.parseDouble(fields[3]));
                 Empresaentrega emp = new Empresaentrega(fields[0],fields[1],pos,fields[3],Double.parseDouble(fields[4]),Double.parseDouble(fields[5]));
+                /*
                 try {
                     trazAqui.addUser(emp);
                 } catch (utilizadorJaExiste e) {
-                }
+                }*/
+                trazAqui.addUser(emp);
             }
         }
 
@@ -158,33 +163,56 @@ public class TrazAqui implements Serializable{
             if(fields.length == 4) {
                 Coordenadas pos = new Coordenadas(Double.parseDouble(fields[2]),Double.parseDouble(fields[3]));
                 Loja l = new Loja(fields[0], fields[1],pos );
+                /*
                 try {
                     trazAqui.addUser(l);
                 } catch (utilizadorJaExiste e) {
-                }
+                }*/
+                trazAqui.addUser(l);
             }
         }
 
-        /*
+        /**
          * Adiciona o Encomenda à aplicação através dos parâmetros do ficheiro csv.
          * @param trazAqui
          * @param string
          */
-        /*
+
         private static void addEncomenda(TrazAqui trazAqui, String string) {
             String[] fields = string.split(",");
             List<Produto> lista = new ArrayList<>();
-            Encomenda enc = new Encomenda();
-
-            try {
-                trazAqui.addEnc(v);
-            } catch (utilizadorJaExiste e) {
+            int i = 4;
+            while ( i < fields.length){
+                String cod = fields[i];
+                i++;
+                String des = fields[i];
+                i++;
+                Double qtd = Double.parseDouble(fields[i]);
+                i++;
+                Double price = Double.parseDouble(fields[i]);
+                i++;
+                Produto p = new Produto(cod,des,qtd,price);
+                lista.add(p.clone());
             }
+            Encomenda enc = new Encomenda(fields[0],fields[1],fields[2],Double.parseDouble(fields[3]),lista);
+            trazAqui.addEnc(enc);
 
-        }*/
+        }
 
+        private static void addAceite(TrazAqui t, String string){
+            String[] fields = string.split(",");
+            t.addEncAceite(fields[0]);
+        }
 
-        //Falta add para encomendas aceites
+        public void addEncAceite(String ref){
+            Encomenda e = this.encomendas.get(ref).clone();
+            this.encaceites.put(e.getReferencia(),e);
+        }
+
+        public void addEnc(Encomenda e){
+            encomendas.put(e.getReferencia(),e.clone());
+        }
+
 
         public User getUser(String username){//} throws userInexistenteException{
             if (utilizadores.containsKey(username)) return utilizadores.get(username).clone();
@@ -195,11 +223,8 @@ public class TrazAqui implements Serializable{
          * Adiciona um utilizador á aplicação
          *
          */
-        public void addUser(User user) throws utilizadorJaExiste{
+        public void addUser(User user){
             utilizadores.put(user.getUsername(),user.clone());
-            /*if(log != null){
-                log.addToLogUser(user);
-            }*/
         }
 
         /**
@@ -269,26 +294,43 @@ public class TrazAqui implements Serializable{
      * Recupera o estado da aplicação
      * @return UMCarroJa
      */
-    public static TrazAqui recoverState() {
-        TrazAqui t = null;
-        try {
-            FileInputStream fis = new FileInputStream("data.txt");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            t = (TrazAqui) ois.readObject();
-            System.out.println("Dados Lidos");
-        } catch (InvalidClassException e) {
-            System.out.println(e.getMessage());
-        } catch (FileNotFoundException e) {
-            System.out.println("Ficheiro de carregamento de dados não existe");
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        } catch (ClassNotFoundException e) {
-            System.out.println(e.getMessage());
-        } catch(Exception e) {
-            System.out.println(e.getMessage());
+        public static TrazAqui recoverState() {
+            TrazAqui t = null;
+            try {
+                FileInputStream fis = new FileInputStream("data.txt");
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                t = (TrazAqui) ois.readObject();
+                System.out.println("Dados Lidos");
+            } catch (InvalidClassException e) {
+                System.out.println(e.getMessage());
+            } catch (FileNotFoundException e) {
+                System.out.println("Ficheiro de carregamento de dados não existe");
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            } catch (ClassNotFoundException e) {
+                System.out.println(e.getMessage());
+            } catch(Exception e) {
+                System.out.println(e.getMessage());
+            }
+            if (t == null) t = new TrazAqui();
+            else t.initLog();
+            return t;
         }
-        if (t == null) t = new TrazAqui();
-        else t.initLog();
-        return t;
-    }
+
+        /**
+         * Guarda o estado num object file
+         */
+        public void saveState ( ) {
+            try {
+                FileOutputStream fos = new FileOutputStream("data.tmp");
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                oos.writeObject(this);
+                System.out.println("Dados Gravados");
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+            if(log != null)
+                log.flushLog();
+        }
+
 }

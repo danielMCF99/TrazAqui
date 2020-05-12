@@ -12,33 +12,23 @@ public class Produto implements Serializable
   private String referencia;
   private String descricao;
   private double preco;
-  private int quantidade;
-  private double imposto;
-  private double desconto;
-  private double peso;
-  
-  
+  private double quantidade;
+
      /**
      * Construtor parametrizado da classe produto.
      * @param ref
      * @param des
      * @param pre
      * @param quan
-     * @param imp
-     * @param descon
-     * @param pe
      * @return
      */
-    public Produto(String ref,String des,double pre,int quan,double imp,double descon,double pe)
+    public Produto(String ref,String des,double pre,double quan)
     {
       this.referencia = ref;
       this.descricao = des;
       this.preco = pre;
       this.quantidade = quan;
-      this.imposto = imp;
-      this.desconto = descon;
-      this.peso = pe;
-      }
+    }
   
      /**
      * Construtor de cópia da classe produto
@@ -51,9 +41,6 @@ public class Produto implements Serializable
           this.descricao = umproduto.getdescricao();
           this.preco = umproduto.getpreco();    
           this.quantidade = umproduto.getquantidade();
-          this.imposto = umproduto.getimposto();
-          this.desconto = umproduto.getdesconto();
-          this.peso = umproduto.getpeso();
         }
   
      /**
@@ -121,7 +108,7 @@ public class Produto implements Serializable
      * @param
      * @return quantidade
      */
-      public int getquantidade()
+      public double getquantidade()
       {
         return this.quantidade;
     }
@@ -131,69 +118,9 @@ public class Produto implements Serializable
      * @param quan
      * @return
      */
-    public void setquantidade(int quan)
+    public void setquantidade(double quan)
     {
         this.quantidade = quan;
-    }
-  
-    /**
-     * Devolve o imposto de um produto 
-     * @param
-     * @return quantidade
-     */
-      public double getimposto()
-      {
-        return this.imposto;
-    }
-  
-    /**
-     * Atualiza o imposto de um produto
-     * @param imp
-     * @return
-     */
-    public void setimposto(double imp)
-    {
-        this.imposto = imp;
-    }
-  
-    /**
-     * Devolve o desconto de um produto
-     * @param
-     * @return desconto
-     */
-      public double getdesconto()
-      {
-        return this.desconto;
-    }
-  
-     /**
-     * Atualiza o desconto de um produto
-     * @param descon
-     * @return
-     */
-    public void setdesconto(double descon)
-    {
-        this.desconto = descon;
-    }
-  
-     /**
-     * Devolve o peso de um produto
-     * @param
-     * @return peso
-     */
-      public double getpeso()
-      {
-        return this.peso;
-    }
-  
-    /**
-     * Atualiza o peso de um produto
-     * @param pe
-     * @return
-     */
-    public void setpeso(double pe)
-    {
-        this.peso = pe;
     }
 
     /**
@@ -230,9 +157,6 @@ public class Produto implements Serializable
         sb.append("\tDescricao: ").append(this.getdescricao()).append("\n");
         sb.append("\tPreco: ").append(this.getpreco()).append("\n");
         sb.append("\tQuantidade: ").append(this.getquantidade()).append("\n");
-        sb.append("\tImposto: ").append(this.getimposto()).append("\n");
-        sb.append("\tDesconto: ").append(this.getdesconto()).append("\n");
-        sb.append("\tPeso: ").append(this.getpeso()).append("\n");
         return sb.toString();
     }
   

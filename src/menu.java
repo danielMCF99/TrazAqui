@@ -134,52 +134,39 @@ public class Menu {
         }
 
         do {
-            System.out.print('\u000C');
             m.show_menu_Principal();
             System.out.print("Escolha uma opção: ");
             opçao1 = read.nextLine();
             isNumeric = opçao1.chars().allMatch(Character::isDigit);
-            }while(!isNumeric || opçao1.length() < 1);
-            choice1 = Integer.parseInt(opçao1);
-            System.out.print("\n");
-            switch(choice1) {
-                case 1:
-                    System.out.println("Escreva o seu mail: ");
-                    String mail = read.nextLine();
-                    System.out.println("Escreva a password: ");
-                    String pass = read.nextLine();
-                    boolean status = t.login(mail,pass);
-                    if(status == true){
-                        User u = t.getUser(mail);
-                        if (u instanceof Voluntario){
-                            show_menu_Voluntario();
+        } while (!isNumeric || opçao1.length() < 1);
+        choice1 = Integer.parseInt(opçao1);
+        System.out.print("\n");
+        switch (choice1) {
+            case 1:
+                System.out.println("Escreva o seu mail: ");
+                String mail = read.nextLine();
+                System.out.println("Escreva a password: ");
+                String pass = read.nextLine();
+                boolean status = t.login(mail, pass);
+                if (status) {
+                    User u = t.getUser(mail);
+                    if (u instanceof Voluntario) {
+                        show_menu_Voluntario();
 
-                        }
-                        else if (u instanceof Empresaentrega){
-                            show_menu_EmpresaEntrega();
-                        }
-                        else if (u instanceof Cliente){
-                            show_menu_Cliente();
-                        }
+                    } else if (u instanceof Empresaentrega) {
+                        show_menu_EmpresaEntrega();
+                    } else if (u instanceof Cliente) {
+                        show_menu_Cliente();
                     }
-                default:
-                    System.out.println("Opção Inválida.\n");
-                    show_menu_Principal();
                 }
 
-            }
-        /*
-        try{
-            t.gravar_estado();
-        }
-        catch(FileNotFoundException e){
-            System.out.println("Erro de Escrita: Ficheiro especificado não existe / não foi encontrado!");
-        }
-        catch(IOException e){
-            System.out.println("Erro de Escrita: Erro ao aceder ao ficheiro!");
-        }
+            case 0:
+                t.saveState();
+                System.exit(0);
 
-        System.out.print('\u000C');
-        System.exit(0);
-        */
+            default:
+                System.out.println("Opção Inválida.\n");
+                show_menu_Principal();
+        }
+    }
 }

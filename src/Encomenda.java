@@ -10,33 +10,36 @@ public class Encomenda implements Serializable {
     private String referenciaUti; //
     private String referenciaLoj;
     private double preco;
-    private double imposto;
-    private double desconto;
     private LocalDateTime data;
     private double peso;
     private List<Produto> lista;
-
 
     public Encomenda() {
         this.referencia = "n/a";
         this.referenciaUti = "n/a";
         this.referenciaLoj = "n/a";
         this.preco = 0;
-        this.imposto = 0;
-        this.desconto = 0;
         this.data = LocalDateTime.now();
         this.peso = 0;
         this.lista = new ArrayList<>();
     }
 
+    public Encomenda(String ref, String refUti, String refL, double peso, List<Produto> l){
+        this.referencia = ref;
+        this.referenciaUti = refUti;
+        this.referenciaLoj = refL;
+        this.peso = peso;
+        setLista(l);
+        this.preco = this.calculaValorLinhaEnc();
+        this.data = LocalDateTime.now();
+    }
+
     public Encomenda(String referencia, String refUti, String refLoj, double preco,
-                     double imposto, double desconto, LocalDateTime date,double peso, List<Produto> l) {
+                      LocalDateTime date,double peso, List<Produto> l) {
         this.referencia = referencia;
         this.referenciaUti = refUti;
         this.referenciaLoj = refLoj;
         this.preco = preco;
-        this.imposto = imposto;
-        this.desconto = desconto;
         this.peso = peso;
         this.data = date;
         setLista(l);
@@ -48,8 +51,6 @@ public class Encomenda implements Serializable {
         this.referenciaUti = linha.getReferenciaUti();
         this.referenciaLoj = linha.getReferenciaLoj();
         this.preco = linha.getPreco();
-        this.imposto = linha.getImposto();
-        this.desconto = linha.getDesconto();
         this.data = linha.getData();
         this.peso = linha.getPeso();
         this.lista = linha.getLista();
@@ -93,22 +94,6 @@ public class Encomenda implements Serializable {
 
     public void setPreco(double preco) {
         this.preco = preco;
-    }
-
-    public double getImposto() {
-        return this.imposto;
-    }
-
-    public void setImposto(double imposto) {
-        this.imposto = imposto;
-    }
-
-    public double getDesconto() {
-        return this.desconto;
-    }
-
-    public void setDesconto(double desconto) {
-        this.desconto = desconto;
     }
 
     public double getPeso() {
@@ -195,7 +180,7 @@ public class Encomenda implements Serializable {
     }
 
     public String toString(){
-        StringBuilder sb = new StringBuilder();         //VER O PESO
+        StringBuilder sb = new StringBuilder();
         sb.append("Encomenda:\n")
                 .append("\tReferência:").append(this.referencia).append("\n")
                 .append("\tReferência Utilizador: ").append(this.referenciaUti).append("\n")
