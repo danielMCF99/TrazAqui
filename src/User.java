@@ -1,22 +1,30 @@
-public class User {
+import java.io.Serializable;
+
+public abstract class User implements Serializable {
 
     // Variáveis de instância
-    private String nome;       
-    private String username;     //username -> username
-    private String password;
+    private String nome,username, password;
     private Coordenadas posicao;
+
+
+    public User(String username, String nome, Coordenadas pos){
+        this.username = username;
+        this.nome = nome;
+        setPosicao(pos);
+        this.password = "abcde";
+    }
 
     /**
      * Construtor parametrizado da classe user.
      * @param n
-     * @param mail
      * @param pass
      * @param x
      * @return
      */
-    public User(String n, String mail, String pass, Coordenadas x){
+
+    public User(String n,String user, String pass, Coordenadas x){
         setNome(n);
-        setUsername(mail);
+        setUsername(user);
         setPassword(pass);
         setPosicao(x);
     }
@@ -50,6 +58,7 @@ public class User {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
 
     /**
      * Devolve o username do user.
@@ -111,9 +120,7 @@ public class User {
      * @param
      * @return User clone da classe User
      */
-    public User clone(){
-        return new User(this);
-    }
+    public abstract User clone();
 
      /**
      * Método que devolve a representação em String da classe User.
@@ -125,7 +132,7 @@ public class User {
         StringBuilder sb = new StringBuilder();
         sb.append("User:\n");
         sb.append("\tNome: ").append(this.getNome()).append("\n");
-        sb.append("\tEmail: ").append(this.getUsername()).append("\n");
+        sb.append("\tUsername: ").append(this.getUsername()).append("\n");
         sb.append("\tPassword: ").append(this.getPassword()).append("\n");
         sb.append("\tPosicao: ").append(this.getPosicao()).append("\n");
         return sb.toString();

@@ -1,23 +1,39 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Empresaentrega extends User {
+public class Empresaentrega extends User implements Serializable {
      
     // variáveis de instância
+    private String nif;
     private boolean prontaReceber;
     private double taxa;
     private int capacidade;
     private double velocidade;
     private double classificacao;
+    private int nclass;
     private double raio;
     private boolean vistoMedico;
     private List<Encomenda> encomendas;
 
-      /**
+    /**
+     * Construtor parametrizado para o ficheiro de logs
+     */
+    public Empresaentrega(String username, String nome, Coordenadas pos, String nif,double raio,double precokm){
+        super(username,nome,pos);
+        this.nif = nif;
+        this.raio = raio;
+        this.taxa = precokm;
+        this.encomendas = new ArrayList<>();
+        this.prontaReceber = true;
+        this.vistoMedico = false;
+    }
+
+    /**
      * Construtor parametrizado da classe Voluntario.
      * @param nome
-     * @param email
+       @param user
      * @param password
      * @param posicao
      * @param pR
@@ -30,14 +46,14 @@ public class Empresaentrega extends User {
      * @param enc
      * @return
      */
-      public Empresaentrega(String nome,String email,String password,Coordenadas posicao,boolean pR,double taxa,int capacidade, double vel,double classi, double raio,boolean vM, List<Encomenda> enc)
-          {
-        super(nome,email,password,posicao);
+      public Empresaentrega(String nome,String user,String password,Coordenadas posicao,boolean pR,double taxa,int capacidade, double vel,double classi,int ncl, double raio,boolean vM, List<Encomenda> enc){
+        super(nome,user,password,posicao);
         this.prontaReceber = pR;
         this.taxa = taxa;
         this.capacidade = capacidade;
         this.velocidade = vel;
         this.classificacao = classi;
+        this.nclass = ncl;
         this.raio = raio;
         this.vistoMedico = vM;
         this.encomendas = enc.stream().map(Encomenda :: clone).collect(Collectors.toList());
@@ -150,8 +166,16 @@ public class Empresaentrega extends User {
     public void setClassificacao(double classificacao) {
         this.classificacao = classificacao;
     }
-    
-     /**
+
+    public int getNclass() {
+        return nclass;
+    }
+
+    public void setNclass(int nclass) {
+        this.nclass = nclass;
+    }
+
+    /**
      * Indica o raio que a empresa faz a entrega.
      * @param
      * @return raio
@@ -186,8 +210,16 @@ public class Empresaentrega extends User {
     public void setVistoMedico(boolean vistoMedico) {
         this.vistoMedico = vistoMedico;
     }
-     
-     /**
+
+    public String getNif() {
+        return nif;
+    }
+
+    public void setNif(String nif) {
+        this.nif = nif;
+    }
+
+    /**
      * Indica a lista de encomendas que a empresa tem
      * @param
      * @return  List<Encomenda> Encomendas

@@ -1,15 +1,15 @@
-package TrazAqui;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-public class Voluntario extends User {
+public class Voluntario extends User implements Serializable {
 
     // variáveis de instância
     private double classificacao;
+    private int nclass;
     private boolean disponivel;
     private double raio_acao;
     private double velocidade;
@@ -17,10 +17,22 @@ public class Voluntario extends User {
     private List<Encomenda> entregas_feitas;
     private List<Encomenda> encomendas;
 
+    public Voluntario(String username,String nome, Coordenadas pos, double raio){
+        super(username,nome,pos);
+        this.raio_acao = raio;
+        this.entregas_feitas = new ArrayList<>();
+        this.encomendas = new ArrayList<>();
+        this.nclass = 0;
+        this.classificacao = 0;
+        this.velocidade = 0;
+        this.verificado = false;
+
+    }
+
     /**
      * Construtor parametrizado da classe Voluntario.
      * @param nome
-     * @param mail
+     * @param user
      * @param pass
      * @param posicao
      * @param classi
@@ -32,9 +44,10 @@ public class Voluntario extends User {
      * @param encomendas1
      * @return
      */
-    public Voluntario(String nome, String mail, String pass, Coordenadas posicao, double classi, boolean disp, double range,double vel, boolean veri, List<Encomenda> entregas_feitas1,List<Encomenda> encomendas1){
-        super(nome,mail,pass,posicao);
+    public Voluntario(String nome, String user, String pass, Coordenadas posicao, double classi,int cls, boolean disp, double range,double vel, boolean veri, List<Encomenda> entregas_feitas1,List<Encomenda> encomendas1){
+        super(nome,user,pass,posicao);
         this.classificacao = classi;
+        this.nclass = cls;
         this.disponivel = disp;
         this.raio_acao = range;
         this.velocidade = vel;
@@ -75,6 +88,14 @@ public class Voluntario extends User {
      */
     public void setClassificacao(double classificacao) {
         this.classificacao = classificacao;
+    }
+
+    public int getNclass() {
+        return nclass;
+    }
+
+    public void setNclass(int nclass) {
+        this.nclass = nclass;
     }
 
     /**
@@ -168,7 +189,6 @@ public class Voluntario extends User {
      * @return
      */
     public void setEntregas_feitas(List<Encomenda> novo){
-        this.entregas_feitas = new ArrayList<>();
         for (Encomenda x: novo){
             this.entregas_feitas.add(x.clone());
         }
@@ -194,7 +214,6 @@ public class Voluntario extends User {
      * @return
      */
     public void setEncomendas(List<Encomenda> novo){
-        this.encomendas = new ArrayList<Encomenda>();
         for (Encomenda x: novo){
             this.encomendas.add(x.clone());
         }
@@ -219,16 +238,15 @@ public class Voluntario extends User {
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("Nome: ").append(super.getNome()).append("\n")
-        .append("Email: ").append(super.getUsername()).append("\n")
         .append("Password: ").append(super.getPassword()).append("\n")
         .append("Posicao: \n").append(super.getPosicao())
         .append("\tClassificacao: ").append(this.getClassificacao()).append("\n")
         .append("\tDisponivel: ").append(this.getDisponivel()).append("\n")
         .append("\tRaio de acao: ").append(this.getRaio_acao()).append("\n")
         .append("\tVelocidade ").append(this.getVelocidade()).append("\n")
-        .append("\tVerificado: ").append(this.getVerificado()).append("\n")
-        .append("\tEntregas feitas: \n").append(this.entregas_feitas.toString()).append("\n")
-        .append("\tEncomendas: \n").append(this.encomendas.toString()).append("\n");
+        .append("\tVerificado: ").append(this.getVerificado()).append("\n");
+        //.append("\tEntregas feitas: \n").append(this.entregas_feitas.toString()).append("\n")
+        //.append("\tEncomendas: \n").append(this.encomendas.toString()).append("\n");
         return sb.toString();
     }
 

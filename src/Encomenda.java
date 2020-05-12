@@ -1,13 +1,11 @@
-package TrazAqui;
-
-
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Encomenda {
+public class Encomenda implements Serializable {
     private String referencia;
     private String referenciaUti; //
     private String referenciaLoj;
@@ -166,7 +164,7 @@ public class Encomenda {
      */
     public void adicionaProduto(Produto linha){
         if(!this.lista.contains(linha)){
-            lista.add(linha);
+            lista.add(linha.clone());
         }
         else{
             System.out.print("A encomenda que quer adicionar já existe\n");

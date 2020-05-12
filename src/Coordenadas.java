@@ -1,6 +1,6 @@
-package TrazAqui;
+import java.io.Serializable;
 
-public class Coordenadas {
+public class Coordenadas implements Serializable {
 
     // Variáveis de instância
     private double latitude;

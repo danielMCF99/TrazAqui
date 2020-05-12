@@ -1,5 +1,4 @@
-package TrazAqui;
-
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,25 +6,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Loja extends User{
+public class Loja extends User implements Serializable {
 
     private List<Encomenda> filaespera;
     private double tempoAtendimento;
-    private HashMap<Produto, Integer> inventario;
+
+    public Loja(String username, String nome, Coordenadas pos){
+        super(username,nome,pos);
+        this.filaespera = new ArrayList<>();
+    }
 
 
-    public Loja(String nome, String username, String password, Coordenadas pos, List<Encomenda> fl, double tempoA, HashMap<Produto,Integer> inv){
+    public Loja(String nome, String username, String password, Coordenadas pos, List<Encomenda> fl, double tempoA){
         super(nome,username,password,pos);
         this.tempoAtendimento = tempoA;
         setFilaespera(fl);
-        setInventario(inv);
     }
 
     public Loja(Loja l1){
-        super(l1.getNome(),l1.getUsername(),l1.getPassword(),l1.getPosicao());
+        super(l1);
         this.tempoAtendimento = l1.getTempoAtendimento();
         setFilaespera(l1.getFilaespera());
-        setInventario(l1.getInventario());
     }
 
     public double getTempoAtendimento() {
@@ -46,19 +47,6 @@ public class Loja extends User{
 
     public void setFilaespera(List<Encomenda> l){
         this.filaespera = l.stream().map(Encomenda :: clone).collect(Collectors.toList());
-    }
-
-    public Map<Produto,Integer> getInventario(){
-        Map<Produto,Integer> ret = new HashMap<>();
-        for(Map.Entry<Produto,Integer> par : this.inventario.entrySet()){
-            ret.put(par.getKey().clone(), par.getValue());
-        }
-        return ret;
-    }
-
-    public void setInventario(Map<Produto,Integer> inv){
-        this.inventario = new HashMap<>();
-        inv.entrySet().forEach(e -> {this.inventario.put(e.getKey().clone(),e.getValue());});
     }
 
     /**
@@ -101,8 +89,7 @@ public class Loja extends User{
 
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Loja:\n").append(super.toString()).append("\n")
-                .append("Inventário:\n").append("\t"+this.inventario);
+        sb.append("Loja:\n").append(super.toString()).append("\n");
         return sb.toString();
     }
 }
