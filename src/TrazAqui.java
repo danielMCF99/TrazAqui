@@ -1,3 +1,5 @@
+import com.sun.management.VMOption;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -297,7 +299,7 @@ public class TrazAqui implements Serializable{
         public static TrazAqui recoverState() {
             TrazAqui t = null;
             try {
-                FileInputStream fis = new FileInputStream("data.txt");
+                FileInputStream fis = new FileInputStream("src/data.tmp");
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 t = (TrazAqui) ois.readObject();
                 System.out.println("Dados Lidos");
@@ -332,5 +334,26 @@ public class TrazAqui implements Serializable{
             if(log != null)
                 log.flushLog();
         }
+        /*
+        /**
+         * Menu para os voluntários
+
+        public void menu_Voluntarios(int opcao,String user){
+            Voluntario v = (Voluntario) this.utilizadores.get(user);
+            switch(opcao) {
+                case 1:
+                    if (v.getDisponivel()){
+                        System.out.println("Já estava disponível.\n");
+                    }
+                    else {
+                        v.setDisponivel(true);
+                        updateUser(v);
+                    }
+                    break;
+                case 2:
+
+
+            }
+        }*/
 
 }

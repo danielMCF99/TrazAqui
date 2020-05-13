@@ -2,6 +2,7 @@
  * Classe Menu.
  *
  */
+import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -28,6 +29,24 @@ public class Menu {
         sb.append("                                                    ||        2 ---> Registar                                                       ||\n");
         sb.append("                                                    ||------------------------------------------------------------------------------||\n");
         sb.append("                                                    ||        0 ---> Sair                                                           ||\n");
+        sb.append("                                                    ==================================================================================\n");
+        System.out.print(sb);
+    }
+
+    private static void tipo_registo() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("                                                    ==================================================================================\n");
+        sb.append("                                                    ||                                Tipo de Registo                               ||\n");
+        sb.append("                                                    ==================================================================================\n");
+        sb.append("                                                    || Opções:                                                                      ||\n");
+        sb.append("                                                    ||------------------------------------------------------------------------------||\n");
+        sb.append("                                                    ||        1 ---> Voluntario                                                     ||\n");
+        sb.append("                                                    ||------------------------------------------------------------------------------||\n");
+        sb.append("                                                    ||        2 ---> Cliente                                                        ||\n");
+        sb.append("                                                    ||------------------------------------------------------------------------------||\n");
+        sb.append("                                                    ||        3 ---> Empresa de Entrega                                             ||\n");
+        sb.append("                                                    ||------------------------------------------------------------------------------||\n");
+        sb.append("                                                    ||        4 ---> Loja                                                           ||\n");
         sb.append("                                                    ==================================================================================\n");
         System.out.print(sb);
     }
@@ -118,7 +137,8 @@ public class Menu {
         int choice1, choice2, choice3, choice4, choice;
         Scanner read = new Scanner(System.in);
         Menu m = new Menu();
-        TrazAqui t = new TrazAqui();
+        TrazAqui t = TrazAqui.recoverState();
+
         try {
             t = TrazAqui.getDataFromBackupFile("src/dados.txt", t);
             t.setBackupDataRead();
@@ -153,16 +173,98 @@ public class Menu {
                     if (u instanceof Voluntario) {
                         show_menu_Voluntario();
 
+
+
                     } else if (u instanceof Empresaentrega) {
                         show_menu_EmpresaEntrega();
                     } else if (u instanceof Cliente) {
                         show_menu_Cliente();
                     }
                 }
+                break;
+
+
+            case 2:
+                String nome = "";
+                tipo_registo();
+                System.out.println("Escolha uma opção válida: ");
+                opçao2 = read.nextLine();
+                while(!Character.isDigit(opçao2.charAt(0)) || 4 < Integer.parseInt(opçao2) || Integer.parseInt(opçao2) < 1){
+                    System.out.println("Escolha uma opção válida: ");
+                    opçao2 = read.nextLine();
+                }
+
+                System.out.println("Qual o seu nome: ");
+                nome = read.nextLine();
+
+                System.out.println("Escreva o seu mail: ");
+                mail = read.nextLine();
+
+                System.out.println("Escreva a password: ");
+                pass = read.nextLine();
+
+                System.out.println("Diga a sua coordenada x: ");
+                double x = read.nextDouble();
+                read.nextLine();
+
+                System.out.println("Diga a sua coordenada y: ");
+                double y = read.nextDouble();
+                read.nextLine();
+
+                switch (Integer.parseInt(opçao2)){
+                    case 1:
+                        System.out.println("Diga o seu raio de ação: ");
+                        double raio = read.nextDouble();
+                        System.out.println("Faça uma estimativa da velocidade a que se vai deslocar: ");
+                        double vel = read.nextDouble();
+                        System.out.println("Tem verificação para transportar encomendas médicas(S ou N)? ");
+                        String ver = read.nextLine().toUpperCase();
+                        boolean visto = false;
+                        if (ver.charAt(0) == 'S'){
+                            visto = true;
+                        }
+                        Voluntario v = new Voluntario(nome,mail,pass,new Coordenadas(x,y),0,0,true,raio,vel,visto,new ArrayList<>(),new ArrayList<>());
+                        t.addUser(v);
+                        break;
+
+                    case 2:
+                        Cliente c = new Cliente(nome,mail,pass,new Coordenadas(x,y),new ArrayList<>());
+                        t.addUser(c);
+                        break;
+
+                    case 3:
+                        System.out.println("Diga o nif da empresa: ");
+                        String nif = read.nextLine();
+                        System.out.println("Taxa de custo por km: ");
+                        double taxa = read.nextDouble();
+                        System.out.println("Quantas encomendas pode transportar de uma vez: ");
+                        int cap = read.nextInt();
+                        System.out.println("Faça uma estimativa da velocidade a que se vai deslocar: ");
+                        vel = read.nextDouble();
+                        System.out.println("Diga o seu raio de ação: ");
+                        raio = read.nextDouble();
+                        System.out.println("Tem verificação para transportar encomendas médicas(S ou N)? ");
+                        ver = read.nextLine().toUpperCase();
+                        visto = false;
+                        if (ver.charAt(0) == 'S'){
+                            visto = true;
+                        }
+                        Empresaentrega emp = new Empresaentrega(nome,mail,pass,new Coordenadas(x,y),true,taxa,cap,vel,0,0,raio,visto,new ArrayList<>());
+                        t.addUser(emp);
+                        break;
+
+                    case 4:
+                        System.out.println("Diga o tempo de atendimento esperado: ");
+                        double tempo = read.nextDouble();
+                        Loja l = new Loja (nome,mail,pass,new Coordenadas(x,y),new ArrayList<>(),tempo);
+                        break;
+                }
+                break;
 
             case 0:
                 t.saveState();
                 System.exit(0);
+                break;
 
             default:
                 System.out.println("Opção Inválida.\n");
