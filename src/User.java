@@ -22,7 +22,7 @@ public abstract class User implements Serializable {
      * @return
      */
 
-    public User(String n,String user, String pass, Coordenadas x){
+    public User(String user,String n, String pass, Coordenadas x){
         setNome(n);
         setUsername(user);
         setPassword(pass);
@@ -66,7 +66,7 @@ public abstract class User implements Serializable {
      * @return username
      */
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     /**
@@ -133,7 +133,6 @@ public abstract class User implements Serializable {
         sb.append("User:\n");
         sb.append("\tNome: ").append(this.getNome()).append("\n");
         sb.append("\tUsername: ").append(this.getUsername()).append("\n");
-        sb.append("\tPassword: ").append(this.getPassword()).append("\n");
         sb.append("\tPosicao: ").append(this.getPosicao()).append("\n");
         return sb.toString();
     }

@@ -28,6 +28,10 @@ public class Empresaentrega extends User implements Serializable {
         this.encomendas = new ArrayList<>();
         this.prontaReceber = true;
         this.vistoMedico = false;
+        this.nclass = 0;
+        this.classificacao = 0;
+        this.capacidade = 1;
+        this.velocidade = 50;
     }
 
     /**
@@ -46,8 +50,9 @@ public class Empresaentrega extends User implements Serializable {
      * @param enc
      * @return
      */
-      public Empresaentrega(String nome,String user,String password,Coordenadas posicao,boolean pR,double taxa,int capacidade, double vel,double classi,int ncl, double raio,boolean vM, List<Encomenda> enc){
-        super(nome,user,password,posicao);
+      public Empresaentrega(String user,String nome,String password,Coordenadas posicao,String nif,boolean pR,double taxa,int capacidade, double vel,double classi,int ncl, double raio,boolean vM, List<Encomenda> enc){
+        super(user,nome,password,posicao);
+        this.nif = nif;
         this.prontaReceber = pR;
         this.taxa = taxa;
         this.capacidade = capacidade;
@@ -67,6 +72,7 @@ public class Empresaentrega extends User implements Serializable {
      public Empresaentrega(Empresaentrega emp)
         {
         super(emp);
+        this.nif = emp.getNif();
         this.prontaReceber = emp.getProntaReceber();
         this.taxa = emp.getTaxa();
         this.capacidade = emp.getCapacidade();
@@ -241,6 +247,18 @@ public class Empresaentrega extends User implements Serializable {
         this.encomendas = lista.stream().map(Encomenda :: clone).collect(Collectors.toList());
     }
 
+    public void addEnc(Encomenda enc){
+        if(!this.encomendas.contains(enc)) {
+            this.encomendas.add(enc.clone());
+        }
+    }
+
+    public void updateClass(double rating){
+        this.nclass++;
+        this.classificacao += rating;
+        setClassificacao(this.classificacao / this.nclass);
+    }
+
      /**
      * Método que faz uma cópia da classe Empresaentrega.
      * Para tal invoca o construtor de cópia.
@@ -263,8 +281,8 @@ public class Empresaentrega extends User implements Serializable {
         sb.append("Empresa de entrega:\n");
         sb.append("Nome: ").append(super.getNome()).append("\n");
         sb.append("Email: ").append(super.getUsername()).append("\n");
-        sb.append("Password: ").append(super.getPassword()).append("\n");
         sb.append("Posicao: ").append(super.getPosicao()).append("\n");
+        sb.append("NIF: ").append(this.getNif()).append("\n");
         sb.append("\tPronta a receber: ").append(this.getProntaReceber()).append("\n");
         sb.append("\tTaxa: ").append(this.getTaxa()).append("\n");
         sb.append("\tCapacidade: ").append(this.getCapacidade()).append("\n");
@@ -290,8 +308,24 @@ public class Empresaentrega extends User implements Serializable {
        return (emp.getUsername().equals(this.getUsername()));
     }
 
-
-
-
-
+   public int hashCode(){
+          long aux1, aux2,aux3,aux4;
+          int hash = 5;
+          hash = 31 * hash + super.hashCode();
+          hash = 31 * hash + this.nif.hashCode();
+          hash = 31 * hash + (this.prontaReceber ? 1 : 0);
+          aux1 = 31 * hash + Double.doubleToLongBits(this.taxa);
+          hash = 31 * hash + (int)(aux1 ^ (aux1 >>> 32));
+          hash = 31 * hash + Integer.hashCode(this.capacidade);
+          aux2 = 31 * hash + Double.doubleToLongBits(this.velocidade);
+          hash = 31 * hash + (int)(aux2 ^ (aux2 >>> 32));
+          aux3 = 31 * hash + Double.doubleToLongBits(this.classificacao);
+          hash = 31 * hash + (int)(aux3 ^ (aux3 >>> 32));
+          hash = 31 * hash + Integer.hashCode(this.nclass);
+          aux4 = 31 * hash + Double.doubleToLongBits(this.raio);
+          hash = 31 * hash + (int)(aux4 ^ (aux4 >>> 32));
+          hash = 31 * hash + (this.vistoMedico ? 1 : 0);
+          hash = 31 * hash + this.encomendas.stream().mapToInt(Encomenda::hashCode).sum();
+          return hash;
+   }
 }

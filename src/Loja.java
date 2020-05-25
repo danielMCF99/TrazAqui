@@ -92,4 +92,14 @@ public class Loja extends User implements Serializable {
         sb.append("Loja:\n").append(super.toString()).append("\n");
         return sb.toString();
     }
+
+    public int hashCode(){
+        int hash = 5;
+        long aux1;
+        hash = 31 * hash + super.hashCode();
+        aux1 = Double.doubleToLongBits(this.tempoAtendimento);
+        hash = 31*hash + (int)(aux1 ^ (aux1 >>> 32));
+        hash = 31*hash + this.filaespera.stream().mapToInt(Encomenda::hashCode).sum();
+        return hash;
+    }
 }

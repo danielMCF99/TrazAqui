@@ -84,15 +84,14 @@ public class Coordenadas implements Serializable {
     /**
      * Método que calcula a distancia entre dois pontos
      * @param c1
-     * @param c2
      * @return
      */
-    public double distancia_Coordenadas(Coordenadas c1,Coordenadas c2)
+    public double distancia_Coordenadas(Coordenadas c1)
     {
        double x1=c1.getLatitude();
        double x2=c1.getLongitude();
-       double y1=c2.getLatitude();
-       double y2=c2.getLongitude();
+       double y1=this.getLatitude();
+       double y2=this.getLongitude();
 
         return Math.sqrt(Math.pow((y2 - y1),2)  + Math.pow((x2 - x1),2));
     }
@@ -134,5 +133,15 @@ public class Coordenadas implements Serializable {
         Coordenadas c = (Coordenadas) o;
 
         return this.longitude == c.getLongitude() && this.latitude == c.getLongitude();
+    }
+
+    public int hashCode(){
+        int hash = 5;
+        long aux1,aux2;
+        aux1 = Double.doubleToLongBits(this.latitude);
+        hash = 31*hash + (int)(aux1 ^ (aux1 >>> 32));
+        aux2 = Double.doubleToLongBits(this.longitude);
+        hash = 31*hash + (int)(aux2 ^ (aux2 >>> 32));
+        return hash;
     }
 }

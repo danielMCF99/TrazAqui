@@ -15,13 +15,11 @@ public class Voluntario extends User implements Serializable {
     private double velocidade;
     private boolean verificado;
     private List<Encomenda> entregas_feitas;
-    private List<Encomenda> encomendas;
 
     public Voluntario(String username,String nome, Coordenadas pos, double raio){
         super(username,nome,pos);
         this.raio_acao = raio;
         this.entregas_feitas = new ArrayList<>();
-        this.encomendas = new ArrayList<>();
         this.nclass = 0;
         this.classificacao = 0;
         this.velocidade = 0;
@@ -41,19 +39,17 @@ public class Voluntario extends User implements Serializable {
      * @param vel
      * @param veri
      * @param entregas_feitas1
-     * @param encomendas1
      * @return
      */
-    public Voluntario(String nome, String user, String pass, Coordenadas posicao, double classi,int cls, boolean disp, double range,double vel, boolean veri, List<Encomenda> entregas_feitas1,List<Encomenda> encomendas1){
-        super(nome,user,pass,posicao);
+    public Voluntario(String nome, String user, String pass, Coordenadas posicao, double classi,int cls, boolean disp, double range,double vel, boolean veri, List<Encomenda> entregas_feitas1){
+        super(user,nome,pass,posicao);
         this.classificacao = classi;
         this.nclass = cls;
         this.disponivel = disp;
         this.raio_acao = range;
         this.velocidade = vel;
         this.verificado = veri;
-        setEntregas_feitas(entregas_feitas1);
-        setEncomendas(encomendas1);
+        this.entregas_feitas = entregas_feitas1.stream().map(Encomenda::clone).collect(Collectors.toList());
     }
 
     /**
@@ -69,7 +65,6 @@ public class Voluntario extends User implements Serializable {
         this.velocidade = v.getVelocidade();
         this.verificado = v.getVerificado();
         setEntregas_feitas(v.getEntregas_feitas());
-        setEncomendas(v.getEncomendas());
     }
 
     /**
@@ -176,8 +171,8 @@ public class Voluntario extends User implements Serializable {
      * @return List<Encomenda> Entregas_feitas
      */
     public List<Encomenda> getEntregas_feitas() {
-        List<Encomenda> novo = new ArrayList<>();
-        for (Encomenda x : this.entregas_feitas){
+        List<Encomenda> novo = new ArrayList<Encomenda>();
+        for (Encomenda x : this.entregas_feitas) {
             novo.add(x.clone());
         }
         return novo;
@@ -189,35 +184,20 @@ public class Voluntario extends User implements Serializable {
      * @return
      */
     public void setEntregas_feitas(List<Encomenda> novo){
-        for (Encomenda x: novo){
-            this.entregas_feitas.add(x.clone());
-        }
-
+        this.entregas_feitas = novo.stream().map(Encomenda :: clone).collect(Collectors.toList());
     }
 
-    /**
-     * Permite obter a lista de encomendas.
-     * param
-     * @return List<Encomenda> Encomendas
-     */
-    public List<Encomenda> getEncomendas() {
-        List<Encomenda> novo = new ArrayList<Encomenda>();
-        for (Encomenda x : this.encomendas){
-            novo.add(x.clone());
+    public void addEnc(Encomenda enc){
+        if(!this.entregas_feitas.contains(enc)) {
+            this.entregas_feitas.add(enc.clone());
         }
-        return novo;
     }
 
-    /**
-     * Atualiza o array com as encomendas.
-     * @param novo
-     * @return
-     */
-    public void setEncomendas(List<Encomenda> novo){
-        for (Encomenda x: novo){
-            this.encomendas.add(x.clone());
-        }
 
+    public void updateClass(double rating){
+        this.nclass++;
+        this.classificacao += rating;
+        setClassificacao(this.classificacao / this.nclass);
     }
 
     /**
@@ -238,15 +218,13 @@ public class Voluntario extends User implements Serializable {
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("Nome: ").append(super.getNome()).append("\n")
-        .append("Password: ").append(super.getPassword()).append("\n")
         .append("Posicao: \n").append(super.getPosicao())
         .append("\tClassificacao: ").append(this.getClassificacao()).append("\n")
         .append("\tDisponivel: ").append(this.getDisponivel()).append("\n")
         .append("\tRaio de acao: ").append(this.getRaio_acao()).append("\n")
         .append("\tVelocidade ").append(this.getVelocidade()).append("\n")
-        .append("\tVerificado: ").append(this.getVerificado()).append("\n");
-        //.append("\tEntregas feitas: \n").append(this.entregas_feitas.toString()).append("\n")
-        //.append("\tEncomendas: \n").append(this.encomendas.toString()).append("\n");
+        .append("\tVerificado: ").append(this.getVerificado()).append("\n")
+        .append("\tEntregas feitas: \n").append(this.entregas_feitas.toString()).append("\n");
         return sb.toString();
     }
 
@@ -262,4 +240,20 @@ public class Voluntario extends User implements Serializable {
         return (v.getUsername().equals(this.getUsername()));
     }
 
+    public int hashCode(){
+        long aux1, aux2,aux3;
+        int hash = 5;
+        hash = 31 * hash + super.hashCode();
+        aux1 = 31 * hash + Double.doubleToLongBits(this.classificacao);
+        hash = 31 * hash + (int)(aux1 ^ (aux1 >>> 32));
+        hash = 31 * hash + Integer.hashCode(this.nclass);
+        hash = 31 * hash + (this.disponivel ? 1 : 0);
+        aux2 = 31 * hash + Double.doubleToLongBits(this.raio_acao);
+        hash = 31 * hash + (int)(aux2 ^ (aux2 >>> 32));
+        aux3 = 31 * hash + Double.doubleToLongBits(this.velocidade);
+        hash = 31 * hash + (int)(aux3 ^ (aux3 >>> 32));
+        hash = 31 * hash + (this.verificado ? 1 : 0);
+        hash = 31*hash + this.entregas_feitas.stream().mapToInt(Encomenda::hashCode).sum();
+        return hash;
+    }
 }

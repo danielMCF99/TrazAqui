@@ -9,7 +9,6 @@ public class Logs implements Serializable
 {
     private PrintWriter printWriter;
 
-
     public Logs() throws IOException {
         String filename = LocalDateTime.now().toString();
         //String filename = "log";

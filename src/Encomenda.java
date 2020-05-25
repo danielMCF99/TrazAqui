@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,11 +7,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Encomenda implements Serializable {
+
     private String referencia;
     private String referenciaUti; //
     private String referenciaLoj;
     private double preco;
-    private LocalDateTime data;
+    private LocalDate data;
     private double peso;
     private List<Produto> lista;
 
@@ -19,7 +21,7 @@ public class Encomenda implements Serializable {
         this.referenciaUti = "n/a";
         this.referenciaLoj = "n/a";
         this.preco = 0;
-        this.data = LocalDateTime.now();
+        this.data = LocalDate.now();
         this.peso = 0;
         this.lista = new ArrayList<>();
     }
@@ -31,11 +33,11 @@ public class Encomenda implements Serializable {
         this.peso = peso;
         setLista(l);
         this.preco = this.calculaValorLinhaEnc();
-        this.data = LocalDateTime.now();
+        this.data = LocalDate.now();
     }
 
     public Encomenda(String referencia, String refUti, String refLoj, double preco,
-                      LocalDateTime date,double peso, List<Produto> l) {
+                      LocalDate date,double peso, List<Produto> l) {
         this.referencia = referencia;
         this.referenciaUti = refUti;
         this.referenciaLoj = refLoj;
@@ -56,11 +58,11 @@ public class Encomenda implements Serializable {
         this.lista = linha.getLista();
     }
 
-    public LocalDateTime getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(LocalDateTime data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 
@@ -198,5 +200,18 @@ public class Encomenda implements Serializable {
         return le.getReferencia().equals(this.referencia);
     }
 
+    public int hashCode(){
+        int hash = 5;
+        long aux1, aux2;
+        aux1 = Double.doubleToLongBits(this.preco);
+        hash = 31 * hash + (int)(aux1 ^ (aux1 >>> 32));
+        aux2 = Double.doubleToLongBits(this.peso);
+        hash = 31 * hash + (int)(aux2 ^ (aux2 >>> 32));
+        hash = 31 * hash + this.referencia.hashCode();
+        hash = 31 * hash + this.referenciaUti.hashCode();
+        hash = 31 * hash + this.referenciaLoj.hashCode();
+        hash = 31 * hash + this.lista.stream().mapToInt(Produto :: hashCode).sum();
+        hash = 31 * hash + this.data.hashCode();
+        return hash;
+    }
 }
-

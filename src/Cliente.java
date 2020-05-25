@@ -5,26 +5,20 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Cliente extends User implements Serializable{
-
     private List<Encomenda> hist_encomendas;
 
     public Cliente(String username, String nome, Coordenadas x){
-        super(nome, username,x);
-        this.hist_encomendas = new ArrayList<>();
-    }
-
-    public Cliente(String nome, String username,String pass, Coordenadas x){
-        super(nome,username,pass,x);
+        super(username,nome,x);
         this.hist_encomendas = new ArrayList<>();
     }
 
     public Cliente(String nome,String username, String pass, Coordenadas x, List<Encomenda> aux){
-        super(nome,username,pass,x);
+        super(username,nome,pass,x);
         setHistorico(aux);
     }
 
     public Cliente(Cliente c){
-        super(c.getNome(),c.getUsername(),c.getPosicao());
+        super(c);
         setHistorico(c.getHistorico());
     }
 
@@ -34,6 +28,12 @@ public class Cliente extends User implements Serializable{
 
     public void setHistorico(List<Encomenda> aux){
         this.hist_encomendas = aux.stream().map(Encomenda :: clone).collect(Collectors.toList());
+    }
+
+    public void addEnc(Encomenda enc){
+        if (!this.hist_encomendas.contains(enc)) {
+            this.hist_encomendas.add(enc.clone());
+        }
     }
 
     public Cliente clone(){
@@ -52,5 +52,12 @@ public class Cliente extends User implements Serializable{
         if(o==null || o.getClass()!=this.getClass())return false;
         Loja l = (Loja) o;
         return l.getUsername().equals(((Loja) o).getUsername());
+    }
+
+    public int hashCode(){
+        int hash = 5;
+        hash = 31 * hash + super.hashCode();
+        hash = 31*hash + this.hist_encomendas.stream().mapToInt(Encomenda :: hashCode).sum();
+        return hash;
     }
 }

@@ -174,6 +174,16 @@ public class Produto implements Serializable
         Produto umproduto = (Produto) o;
         return this.getreferencia().equals(umproduto.getreferencia());
     }
-  
-  
+
+    public int hashCode(){
+        int hash = 5;
+        long aux1, aux2;
+        aux1 = Double.doubleToLongBits(this.preco);
+        hash = 31*hash + (int)(aux1 ^ (aux1 >>> 32));
+        aux2 = Double.doubleToLongBits(this.quantidade);
+        hash = 31*hash + (int)(aux1 ^ (aux2 >>> 32));
+        hash = 31 * hash + this.referencia.hashCode();
+        hash = 31 * hash + this.descricao.hashCode();
+        return hash;
+    }
 }
