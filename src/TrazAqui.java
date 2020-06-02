@@ -385,7 +385,7 @@ public class TrazAqui implements Serializable{
         public static TrazAqui recoverState() {
             TrazAqui t = null;
             try {
-                FileInputStream fis = new FileInputStream("src/data.txt");
+                FileInputStream fis = new FileInputStream("src/teste.tmp");
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 t = (TrazAqui) ois.readObject();
                 System.out.println("Dados Lidos");
@@ -410,7 +410,7 @@ public class TrazAqui implements Serializable{
          */
         public void saveState() {
             try {
-                FileOutputStream fos = new FileOutputStream("src/data.txt");
+                FileOutputStream fos = new FileOutputStream("src/teste.tmp");
                 ObjectOutputStream oos = new ObjectOutputStream(fos);
                 oos.writeObject(this);
                 System.out.println("Dados Gravados");

@@ -187,18 +187,18 @@ public class Menu {
         Scanner read = new Scanner(System.in);
         Menu m = new Menu();
         TrazAqui t = TrazAqui.recoverState();
-
-        try {
-            t = TrazAqui.getDataFromBackupFile("src/dados.txt", t);
-            t.setBackupDataRead();
-        }catch (FileNotFoundException e) {
-            t = new TrazAqui();
-            System.out.println("Erro de Leitura: Ficheiro especificado não existe / não foi encontrado!");
-        }  catch (IOException e) {
-            t = new TrazAqui();
-            System.out.println("Erro de Leitura: Erro ao ler ficheiro de estado.");
+        if (t == null) {
+            try {
+                t = TrazAqui.getDataFromBackupFile("src/dados.txt", t);
+                t.setBackupDataRead();
+            } catch (FileNotFoundException e) {
+                t = new TrazAqui();
+                System.out.println("Erro de Leitura: Ficheiro especificado não existe / não foi encontrado!");
+            } catch (IOException e) {
+                t = new TrazAqui();
+                System.out.println("Erro de Leitura: Erro ao ler ficheiro de estado.");
+            }
         }
-
         t.atualiza();
 
         do {
