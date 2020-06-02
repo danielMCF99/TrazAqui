@@ -1,4 +1,5 @@
 import java.io.*;
+import java.time.LocalDate;
 import java.util.*;
 
 public class TrazAqui implements Serializable{
@@ -7,7 +8,7 @@ public class TrazAqui implements Serializable{
         private Map<String,Encomenda> encomendas; //HashMap com todas as encomendas
         private Map<String,Encomenda> encaceites; //HashMap com todas as encomendas aceites
         private Map<String,List<String>> classpendentes;
-        private transient Logs log;
+        private Map<String,Produto> produtos;
         private User userlogado = null;
         private boolean backupDataRead = false;
 
@@ -20,19 +21,89 @@ public class TrazAqui implements Serializable{
             this.encomendas = new HashMap<>();
             this.encaceites = new HashMap<>();
             this.classpendentes = new HashMap<>();
-            initLog();
+            this.produtos = new HashMap<>();
         }
 
-        /**
-         * Inicia o Log
-         */
-        public void initLog() {
-            try{
-                log = new Logs();
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
+    /**
+     *         SETTERS and GETTERS
+     */
+
+    public Produto getProduto(String cod) {
+        if (this.produtos.containsKey(cod)){
+            return this.produtos.get(cod).clone();
         }
+        return null;
+    }
+
+    public Map<String, User> getutilizadores()
+    {
+        Map<String, User> nova = new HashMap<>();
+        for(String s: this.utilizadores.keySet())
+        {
+            nova.put(s, this.utilizadores.get(s).clone());
+        }
+        return nova;
+    }
+
+
+    public void setutilizadores(Map<String, User> utilizadores)
+    {
+        this.utilizadores = new HashMap<>();
+        for(String s: utilizadores.keySet())
+        {
+            this.utilizadores.put(s, utilizadores.get(s).clone());
+        }
+    }
+
+
+    public Map<String, Encomenda> getencomendas()
+    {
+        Map<String, Encomenda> nova1 = new HashMap<>();
+        for(String s: this.encomendas.keySet())
+        {
+            nova1.put(s, this.encomendas.get(s).clone());
+        }
+        return nova1;
+    }
+
+    public Encomenda getEncomenda(String cod){
+        Encomenda e = null;
+        if(this.encomendas.containsKey(cod) && !this.encaceites.containsKey(cod)){
+            e = this.encomendas.get(cod).clone();
+        }
+        return e;
+    }
+
+
+    public void setencomendas(Map<String, Encomenda> encomendas)
+    {
+        this.encomendas = new HashMap<>();
+        for(String s: encomendas.keySet())
+        {
+            this.encomendas.put(s, encomendas.get(s).clone());
+        }
+    }
+
+
+    public Map<String, Encomenda> getencaceites()
+    {
+        Map<String, Encomenda> nova2 = new HashMap<>();
+        for(String s: this.encaceites.keySet())
+        {
+            nova2.put(s, this.encaceites.get(s).clone());
+        }
+        return nova2;
+    }
+
+
+    public void setencaceites(Map<String, Encomenda> encaceites)
+    {
+        this.encaceites = new HashMap<>();
+        for(String s: encaceites.keySet())
+        {
+            this.encaceites.put(s, encaceites.get(s).clone());
+        }
+    }
 
         /**
          * Dá logout do utilizador
@@ -164,21 +235,26 @@ public class TrazAqui implements Serializable{
                 double price = Double.parseDouble(fields[i]);
                 i++;
                 Produto p = new Produto(cod,des,qtd,price);
+                trazAqui.produtos.put(cod,p.clone());
                 lista.add(p.clone());
             }
             Encomenda enc = new Encomenda(fields[0],fields[1],fields[2],Double.parseDouble(fields[3]),lista);
             trazAqui.addEnc(enc);
             User u = trazAqui.utilizadores.get(fields[1]).clone();
+            User lu = trazAqui.utilizadores.get(fields[2]).clone();
             if(u != null){
                 Cliente c = (Cliente) u;
                 c.addEnc(enc);
                 trazAqui.updateUser(c);
             }
-
+            if (lu != null){
+                Loja l = (Loja) lu;
+                l.addEncomenda(enc);
+                trazAqui.updateUser(l);
+            }
         }
 
         private static void addAceite(TrazAqui t, String string){
-            //String[] fields = string.split(",");
             Encomenda enc = t.encomendas.get(string);
             Cliente c = (Cliente) t.utilizadores.get(enc.getReferenciaUti()).clone();
             Loja l = (Loja) t.utilizadores.get(enc.getReferenciaLoj()).clone();
@@ -200,10 +276,13 @@ public class TrazAqui implements Serializable{
                         e.addEnc(enc);
                         t.add_pend(enc.getReferenciaUti(),e.getUsername());
                         t.updateUser(e);
-                            break;
+                        break;
                     }
                 }
             }
+            List<Encomenda> e = new ArrayList<>();
+            l.setFilaespera(e);
+            t.updateUser(l);
             t.addEncAceite(string);
         }
 
@@ -310,6 +389,7 @@ public class TrazAqui implements Serializable{
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 t = (TrazAqui) ois.readObject();
                 System.out.println("Dados Lidos");
+                ois.close();
             } catch (InvalidClassException e) {
                 System.out.println(e.getMessage());
             } catch (FileNotFoundException e) {
@@ -322,24 +402,23 @@ public class TrazAqui implements Serializable{
                 System.out.println(e.getMessage());
             }
             if (t == null) t = new TrazAqui();
-            else t.initLog();
             return t;
         }
 
         /**
          * Guarda o estado num object file
          */
-        public void saveState ( ) {
+        public void saveState() {
             try {
                 FileOutputStream fos = new FileOutputStream("src/data.txt");
                 ObjectOutputStream oos = new ObjectOutputStream(fos);
                 oos.writeObject(this);
                 System.out.println("Dados Gravados");
+                oos.flush();
+                oos.close();
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
-            if(log != null)
-                log.flushLog();
         }
 
         /**
@@ -527,6 +606,13 @@ public class TrazAqui implements Serializable{
             this.classpendentes.put(uti,temp);
     }
 
+    /**
+     * Alterar o tempo de atendimento de uma loja
+     */
+
+    public void altera_atend(User l, double x){
+        ((Loja) l).setTempoAtendimento(x);
+    }
 
     public void aceitaEncomenda(Voluntario v, String codenc){
             Encomenda enc = this.encomendas.get(codenc).clone();
@@ -540,9 +626,11 @@ public class TrazAqui implements Serializable{
                 Loja l = (Loja) this.utilizadores.get(codLoja).clone();
                 Cliente c = (Cliente) this.utilizadores.get(codUti).clone();
                 double distancia1 = v.getPosicao().distancia_Coordenadas(l.getPosicao());
-                double distancia2 = l.getPosicao().distancia_Coordenadas(c.getPosicao());
-                if (distancia1 > v.getRaio_acao() || distancia2 > v.getRaio_acao()){
+                double distancia2 = v.getPosicao().distancia_Coordenadas(c.getPosicao());
+
+                if (distancia1 >= v.getRaio_acao() || distancia2 >= v.getRaio_acao()){
                     System.out.println("Esta fora do seu raio de açao.");
+                    v.setDisponivel(true);
                 }
                 else{
                     this.encaceites.put(enc.getReferencia(),enc.clone());
@@ -558,6 +646,47 @@ public class TrazAqui implements Serializable{
         return this.classpendentes.get(username);
     }
 
+
+    /**
+     * método para obter o preço de uma encomenda
+     */
+
+    public double Def_preco(Empresaentrega u,String codenc){
+        double caminho = 0;
+        Encomenda enc = this.encomendas.get(codenc).clone();
+        if (enc == null){
+            System.out.println("Nao existe essa encomenda.");
+        }else {
+            double preco  = enc.calculaValorLinhaEnc();
+            String codLoja = enc.getReferenciaLoj();
+            String codUti = enc.getReferenciaUti();
+            Loja l = (Loja) this.utilizadores.get(codLoja).clone();
+            Cliente c = (Cliente) this.utilizadores.get(codUti).clone();
+            double distancia1 = u.getPosicao().distancia_Coordenadas(l.getPosicao());
+            double distancia2 = u.getPosicao().distancia_Coordenadas(c.getPosicao());
+            double distancia3 = l.getPosicao().distancia_Coordenadas(c.getPosicao());
+            if (distancia1 >= u.getRaio() || distancia2 >= u.getRaio()){
+                System.out.println("Está fora do alcance da transportadora.");
+                u.setProntaReceber(true);
+            }else{
+                caminho = u.getTaxa() * (distancia1 + distancia3);
+                System.out.println("Empresa: " + u.getUsername() + "Preço do transporte: " + caminho + " Preço encomenda: " + preco + " Preço total: " + preco + caminho);
+            }
+        }
+        return caminho;
+    }
+
+    public void total_faturado(Empresaentrega e , LocalDate d1, LocalDate d2){
+        double ret = 0;
+        for(Encomenda enc : e.getEncomendas()){
+            if (enc.getData().isAfter(d1) && enc.getData().isAfter(d2)){
+                ret += Def_preco(e,enc.getReferencia());
+            }
+        }
+        System.out.println("O total faturado pela sua empresa no periodo de tempo especificado foi : " + ret);
+    }
+
+
     public void classificar(String username, double classificao){
             User u = this.utilizadores.get(username).clone();
             if (u == null){
@@ -567,14 +696,97 @@ public class TrazAqui implements Serializable{
                 if (u instanceof Voluntario){
                     Voluntario v = (Voluntario) u;
                     v.updateClass(classificao);
+                    this.utilizadores.put(v.getUsername(),v.clone());
                     remove_pend(this.userlogado.getUsername(),u.getUsername());
                 }
                 else if (u instanceof Empresaentrega){
                     Empresaentrega e = (Empresaentrega) u;
                     e.updateClass(classificao);
+                    this.utilizadores.put(e.getUsername(),e.clone());
                     remove_pend(this.userlogado.getUsername(),u.getUsername());
                 }
             }
     }
 
+    public Set<User> top10_u(){
+        List<User> aux = new ArrayList<>();
+        Set<User> ret = new TreeSet<>(new ComparatorNumeroEncomendas());
+        for(User u : this.utilizadores.values()){
+            if (u instanceof Voluntario){
+                Voluntario v = (Voluntario) u.clone();
+                aux.add(v);
+            }
+            if (u instanceof Empresaentrega){
+                Empresaentrega e = (Empresaentrega) u.clone();
+                aux.add(e);
+            }
+        }
+        for (User u : aux) {
+            ret.add(u.clone());
+        }
+        return ret;
+    }
+
+    public void distancia_total(Empresaentrega ee){
+        double ret = 0;
+        for(Encomenda e : ee.getEncomendas()){
+            Loja l = (Loja) this.getutilizadores().get(e.getReferenciaLoj()).clone();
+            Cliente c = (Cliente) this.getutilizadores().get(e.getReferenciaUti()).clone();
+            double distancia1 = ee.getPosicao().distancia_Coordenadas(l.getPosicao());
+            double distancia2 = l.getPosicao().distancia_Coordenadas(c.getPosicao());
+            ret += distancia1 + distancia2;
+        }
+        ee.setDistancia(ret);
+    }
+
+    public Set<Empresaentrega> top10_km(){
+        List<Empresaentrega> aux = new ArrayList<>();
+        for(User u : this.getutilizadores().values()){
+            if (u instanceof Empresaentrega){
+                distancia_total((Empresaentrega) u);
+                aux.add((Empresaentrega) u.clone());
+            }
+        }
+        Set<Empresaentrega> ret = new TreeSet<>(new ComparatorKm());
+        int tam = 10;
+        for(User u : aux){
+            if (tam > 0){
+                ret.add((Empresaentrega) u.clone());
+                tam -= 1;
+            }
+        }
+        return ret;
+    }
+
+    public void show_produtos(){
+        for (Produto p : this.produtos.values()) {
+            System.out.println("Codigo do produto: " + p.getreferencia());
+            System.out.println("Nome: " + p.getdescricao());
+        }
+    }
+
+    public void aceitaenc_empresa(TrazAqui t , User u , Encomenda enc){
+        Empresaentrega et = (Empresaentrega) u;
+        Cliente destino = (Cliente) t.getutilizadores().get(enc.getReferenciaUti()).clone();
+        double caminho = t.Def_preco(et,enc.getReferencia());
+        if (caminho > 0) {
+            destino.addEnc_poraceitar(et.getUsername(), enc);
+            t.updateUser(destino);
+        }else{
+            System.out.println("Esta encomenda está fora do seu raio de ação.");
+        }
+    }
+
+    public void aceita_transportadora(TrazAqui t, User u , String codEmp){
+        Cliente c = (Cliente) u;
+        Encomenda enc = c.getEncomenda(codEmp);
+        Empresaentrega et = (Empresaentrega) t.getutilizadores().get(codEmp).clone();
+        c.addEnc(enc); //adiciona encomenda ao historico
+        c.removeEnc(enc); //remove encomenda das encomendas por aceitar
+        t.addEncAceite(enc.getReferencia()); //adiciona a encomenda ao hashmap das aceites em trazaqui
+        t.add_pend(c.getUsername(),codEmp); //adiciona a classificação por fazer
+        et.addEnc(enc); //adiciona encomenda ao historico da empresa
+        t.addUser(et); //atualiza empresa
+        t.updateUser(c);
+    }
 }

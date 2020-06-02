@@ -1,9 +1,4 @@
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 public class Produto implements Serializable
 {
@@ -152,7 +147,7 @@ public class Produto implements Serializable
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append("Produto:\n");
+        sb.append("Produto ---> ");
         sb.append("\tReferencia: ").append(this.getreferencia()).append("\n");
         sb.append("\tDescricao: ").append(this.getdescricao()).append("\n");
         sb.append("\tPreco: ").append(this.getpreco()).append("\n");

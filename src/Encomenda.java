@@ -1,6 +1,5 @@
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -9,7 +8,7 @@ import java.util.stream.Collectors;
 public class Encomenda implements Serializable {
 
     private String referencia;
-    private String referenciaUti; //
+    private String referenciaUti;
     private String referenciaLoj;
     private double preco;
     private LocalDate data;
@@ -17,9 +16,9 @@ public class Encomenda implements Serializable {
     private List<Produto> lista;
 
     public Encomenda() {
-        this.referencia = "n/a";
-        this.referenciaUti = "n/a";
-        this.referenciaLoj = "n/a";
+        this.referencia = "";
+        this.referenciaUti = "";
+        this.referenciaLoj = "";
         this.preco = 0;
         this.data = LocalDate.now();
         this.peso = 0;
@@ -33,7 +32,7 @@ public class Encomenda implements Serializable {
         this.peso = peso;
         setLista(l);
         this.preco = this.calculaValorLinhaEnc();
-        this.data = LocalDate.now();
+        this.data = createRandomDate(2018,2020);
     }
 
     public Encomenda(String referencia, String refUti, String refLoj, double preco,
@@ -57,6 +56,18 @@ public class Encomenda implements Serializable {
         this.peso = linha.getPeso();
         this.lista = linha.getLista();
     }
+
+    public static int createRandomIntBetween(int start, int end) {
+        return start + (int) Math.round(Math.random() * (end - start));
+    }
+
+    public static LocalDate createRandomDate(int startYear, int endYear) {
+        int day = createRandomIntBetween(1, 28);
+        int month = createRandomIntBetween(1, 12);
+        int year = createRandomIntBetween(startYear, endYear);
+        return LocalDate.of(year, month, day);
+    }
+
 
     public LocalDate getData() {
         return data;

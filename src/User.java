@@ -130,7 +130,6 @@ public abstract class User implements Serializable {
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append("User:\n");
         sb.append("\tNome: ").append(this.getNome()).append("\n");
         sb.append("\tUsername: ").append(this.getUsername()).append("\n");
         sb.append("\tPosicao: ").append(this.getPosicao()).append("\n");

@@ -1,8 +1,6 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class Voluntario extends User implements Serializable {
@@ -195,8 +193,9 @@ public class Voluntario extends User implements Serializable {
 
 
     public void updateClass(double rating){
-        this.nclass++;
+        this.nclass += 1;
         this.classificacao += rating;
+        setNclass(this.nclass);
         setClassificacao(this.classificacao / this.nclass);
     }
 

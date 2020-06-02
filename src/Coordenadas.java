@@ -89,8 +89,8 @@ public class Coordenadas implements Serializable {
     public double distancia_Coordenadas(Coordenadas c1)
     {
        double x1=c1.getLatitude();
-       double x2=c1.getLongitude();
-       double y1=this.getLatitude();
+       double y1=c1.getLongitude();
+       double x2=this.getLatitude();
        double y2=this.getLongitude();
 
         return Math.sqrt(Math.pow((y2 - y1),2)  + Math.pow((x2 - x1),2));

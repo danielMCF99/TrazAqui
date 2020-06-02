@@ -5,6 +5,7 @@
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.io.IOException;
+import java.util.Set;
 
 public class Menu {
     /**
@@ -23,6 +24,10 @@ public class Menu {
         sb.append("                                                    ||        1 ---> Login                                                          ||\n");
         sb.append("                                                    ||------------------------------------------------------------------------------||\n");
         sb.append("                                                    ||        2 ---> Registar                                                       ||\n");
+        sb.append("                                                    ||------------------------------------------------------------------------------||\n");
+        sb.append("                                                    ||        3 ---> Top 10 Utilizadores(nº encomendas transp)                      ||\n");
+        sb.append("                                                    ||------------------------------------------------------------------------------||\n");
+        sb.append("                                                    ||        4 ---> Top 10 Empresas(nº de km)                                      ||\n");
         sb.append("                                                    ||------------------------------------------------------------------------------||\n");
         sb.append("                                                    ||        0 ---> Sair                                                           ||\n");
         sb.append("                                                    ==================================================================================\n");
@@ -74,13 +79,15 @@ public class Menu {
         sb.append("                                                    ||------------------------------------------------------------------------------||\n");
         sb.append("                                                    ||        6 ---> Classificar Empresa/Voluntário                                 ||\n");
         sb.append("                                                    ||------------------------------------------------------------------------------||\n");
-        sb.append("                                                    ||        7 ---> Logout                                                         ||\n");
+        sb.append("                                                    ||        7 ---> Entregas por aceitar                                           ||\n");
+        sb.append("                                                    ||------------------------------------------------------------------------------||\n");
+        sb.append("                                                    ||        8 ---> Logout                                                         ||\n");
         sb.append("                                                    ==================================================================================\n");
         System.out.print(sb);
     }
 
     /**
-     * Método que constrói o menu dos Contribuintes Individuais que faz parte da interface do programa.
+     * Método que constrói o menu dos Voluntários.
      *
      * @param
      * @return
@@ -106,7 +113,7 @@ public class Menu {
     }
 
     /**
-     * Método que constrói o menu dos Contribuintes Coletivos / Empresas que faz parte da interface do programa.
+     * Método que constrói o menu das Empresas.
      *
      * @param
      * @return
@@ -126,10 +133,32 @@ public class Menu {
         sb.append("                                             ||---------------------------------------------------------------------------------------------------||\n");
         sb.append("                                             ||        4 ---> Ver total faturado num periodo de tempo                                             ||\n");
         sb.append("                                             ||---------------------------------------------------------------------------------------------------||\n");
-        sb.append("                                             ||        5 ---> Logout.                                                                             ||\n");
+        sb.append("                                             ||        5 ---> Fazer entrega                                                                             ||\n");
+        sb.append("                                             ||---------------------------------------------------------------------------------------------------||\n");
+        sb.append("                                             ||        6 ---> Logout.                                                                             ||\n");
         sb.append("                                             =======================================================================================================\n");
         System.out.print(sb);
     }
+
+    /**
+     * Método que imprime o menu das lojas
+     */
+    public void show_menu_loja(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("                                                    ==================================================================================\n");
+        sb.append("                                                    ||                                Menu TrazAqui - Loja                          ||\n");
+        sb.append("                                                    ==================================================================================\n");
+        sb.append("                                                    || Opções:                                                                      ||\n");
+        sb.append("                                                    ||------------------------------------------------------------------------------||\n");
+        sb.append("                                                    ||        1 ---> Alterar tempo de atendimento                                   ||\n");
+        sb.append("                                                    ||------------------------------------------------------------------------------||\n");
+        sb.append("                                                    ||        2 ---> Mostrar fila de espera                                         ||\n");
+        sb.append("                                                    ||------------------------------------------------------------------------------||\n");
+        sb.append("                                                    ||        0 ---> Logout                                                         ||\n");
+        sb.append("                                                    ==================================================================================\n");
+        System.out.print(sb);
+    }
+
 
     /**
      * Metodo para ver se uma string é um número
@@ -153,10 +182,8 @@ public class Menu {
      * @return
      */
     public static void main(String[] args) {
-        //Controlo c = new Controlo();
-        String opçao1, opçao2, opçao_Cliente, opçao4, option;
-        //boolean isNumeric;
-        int choice1, choice2, choice3, choice4, choice;
+        String opçao1;
+        int choice;
         Scanner read = new Scanner(System.in);
         Menu m = new Menu();
         TrazAqui t = TrazAqui.recoverState();
@@ -164,10 +191,7 @@ public class Menu {
         try {
             t = TrazAqui.getDataFromBackupFile("src/dados.txt", t);
             t.setBackupDataRead();
-        }/*catch (ClassNotFoundException e) {
-            t = new TrazAqui();
-            System.out.println("Erro de Leitura: Formato de ficheiro desconhecido.");
-        }*/ catch (FileNotFoundException e) {
+        }catch (FileNotFoundException e) {
             t = new TrazAqui();
             System.out.println("Erro de Leitura: Ficheiro especificado não existe / não foi encontrado!");
         }  catch (IOException e) {
@@ -182,7 +206,6 @@ public class Menu {
                 m.show_menu_Principal();
                 System.out.print("Escolha uma opção: ");
                 opçao1 = read.nextLine();
-                //isNumeric = opçao1.chars().allMatch(Character::isDigit);
             } while (!isNumeric(opçao1) || opçao1.length() < 1);
 
             choice = Integer.parseInt(opçao1);
@@ -208,11 +231,40 @@ public class Menu {
                         else if (u instanceof Empresaentrega){
                             t.setUserlogado(u);
                             Controlo.menu_EmpresaEntrega(t,u,m);
+                        }else if (u instanceof Loja){
+                            t.setUserlogado(u);
+                            Controlo.menu_Loja(t,u,m);
                         }
                     }
                     break;
                 case 2:
                     Controlo.menu_registo(t,m);
+                    break;
+
+                case 3:
+                    Set<User> s = t.top10_u();
+                    int tam = 10;
+                    for(User u : s){
+                        if (tam > 0){
+                            Voluntario v1 = u instanceof Voluntario ? (Voluntario) u : null;
+                            Empresaentrega e1 = u instanceof Empresaentrega ? (Empresaentrega) u: null;
+                            int s1 = v1 != null ? v1.getEntregas_feitas().size(): e1.getEncomendas().size();
+                            System.out.println("Empresa: " + u.getNome() + " ----> Numero de encomendas: " + s1);
+                            tam -= 1;
+                        }
+                    }
+                    break;
+
+                case 4:
+                    tam = 10;
+                    Set<Empresaentrega> se = t.top10_km();
+                    for(Empresaentrega e : se){
+                        if (tam > 0){
+                            double dist = e.getDistancia();
+                            System.out.println("Empresa: " + e.getNome() + " ----> Numero de km: " + dist);
+                            tam -= 1;
+                        }
+                    }
                     break;
 
                 case 0:

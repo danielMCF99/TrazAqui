@@ -14,6 +14,7 @@ public class Empresaentrega extends User implements Serializable {
     private double classificacao;
     private int nclass;
     private double raio;
+    private double distancia;
     private boolean vistoMedico;
     private List<Encomenda> encomendas;
 
@@ -32,6 +33,7 @@ public class Empresaentrega extends User implements Serializable {
         this.classificacao = 0;
         this.capacidade = 1;
         this.velocidade = 50;
+        this.distancia = 0;
     }
 
     /**
@@ -50,7 +52,7 @@ public class Empresaentrega extends User implements Serializable {
      * @param enc
      * @return
      */
-      public Empresaentrega(String user,String nome,String password,Coordenadas posicao,String nif,boolean pR,double taxa,int capacidade, double vel,double classi,int ncl, double raio,boolean vM, List<Encomenda> enc){
+      public Empresaentrega(String user,String nome,String password,Coordenadas posicao,String nif,boolean pR,double taxa,int capacidade, double vel,double classi,int ncl, double raio,double distancia,boolean vM, List<Encomenda> enc){
         super(user,nome,password,posicao);
         this.nif = nif;
         this.prontaReceber = pR;
@@ -60,6 +62,7 @@ public class Empresaentrega extends User implements Serializable {
         this.classificacao = classi;
         this.nclass = ncl;
         this.raio = raio;
+        this.distancia = distancia;
         this.vistoMedico = vM;
         this.encomendas = enc.stream().map(Encomenda :: clone).collect(Collectors.toList());
     }
@@ -78,7 +81,9 @@ public class Empresaentrega extends User implements Serializable {
         this.capacidade = emp.getCapacidade();
         this.velocidade = emp.getVelocidade();
         this.classificacao = emp.getClassificacao();
+        this.nclass = emp.getNclass();
         this.raio = emp.getRaio();
+        this.distancia = emp.getRaio();
         this.vistoMedico = emp.getVistoMedico();
         setEncomendas(emp.getEncomendas());
     }
@@ -198,8 +203,16 @@ public class Empresaentrega extends User implements Serializable {
     public void setRaio(double raio) {
         this.raio = raio;
     }
-     
-     /**
+
+    public double getDistancia() {
+        return distancia;
+    }
+
+    public void setDistancia(double distancia) {
+        this.distancia = distancia;
+    }
+
+    /**
      * Indica se a empresa entrega material medico(se pode ou nao entregar).
      * @param
      * @return vistomedico
@@ -254,12 +267,13 @@ public class Empresaentrega extends User implements Serializable {
     }
 
     public void updateClass(double rating){
-        this.nclass++;
+        this.nclass += 1;
         this.classificacao += rating;
+        setNclass(this.nclass);
         setClassificacao(this.classificacao / this.nclass);
     }
 
-     /**
+    /**
      * Método que faz uma cópia da classe Empresaentrega.
      * Para tal invoca o construtor de cópia.
      * @param
@@ -278,16 +292,17 @@ public class Empresaentrega extends User implements Serializable {
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append("Empresa de entrega:\n");
-        sb.append("Nome: ").append(super.getNome()).append("\n");
-        sb.append("Email: ").append(super.getUsername()).append("\n");
-        sb.append("Posicao: ").append(super.getPosicao()).append("\n");
-        sb.append("NIF: ").append(this.getNif()).append("\n");
+        sb.append("Empresa de entrega ---> ");
+        sb.append("\tNome: ").append(super.getNome()).append("\n");
+        sb.append("\tEmail: ").append(super.getUsername()).append("\n");
+        sb.append("\tPosicao: ").append(super.getPosicao());
+        sb.append("\tNIF: ").append(this.getNif()).append("\n");
         sb.append("\tPronta a receber: ").append(this.getProntaReceber()).append("\n");
         sb.append("\tTaxa: ").append(this.getTaxa()).append("\n");
         sb.append("\tCapacidade: ").append(this.getCapacidade()).append("\n");
         sb.append("\tVelocidade: ").append(this.getVelocidade()).append("\n");
         sb.append("\tClassificacao: ").append(this.getClassificacao()).append("\n");
+        sb.append("\tNumero de Classificaçoes: ").append(this.getNclass()).append("\n");
         sb.append("\tRaio: ").append(this.getRaio()).append("\n");
         sb.append("\tVisto Medico: ").append(this.getVistoMedico()).append("\n");
         sb.append("\tLista de encomendas: ").append(this.encomendas.toString()).append("\n");
@@ -328,4 +343,5 @@ public class Empresaentrega extends User implements Serializable {
           hash = 31 * hash + this.encomendas.stream().mapToInt(Encomenda::hashCode).sum();
           return hash;
    }
+
 }

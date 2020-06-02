@@ -1,9 +1,6 @@
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Loja extends User implements Serializable {
@@ -14,6 +11,7 @@ public class Loja extends User implements Serializable {
     public Loja(String username, String nome, Coordenadas pos){
         super(username,nome,pos);
         this.filaespera = new ArrayList<>();
+        this.tempoAtendimento = 10;
     }
 
 
@@ -89,7 +87,7 @@ public class Loja extends User implements Serializable {
 
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Loja:\n").append(super.toString()).append("\n");
+        sb.append("Loja ---> ").append(super.toString()).append("\n");
         return sb.toString();
     }
 
